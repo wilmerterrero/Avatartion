@@ -1,5 +1,5 @@
 import Head from 'next/head';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import AvatarCanvas from '~/components/AvatarCanvas';
 
 const randomPart = (src: string, qty: number) =>
@@ -11,13 +11,26 @@ export default function Home() {
   const [avatar, setAvatar] = useState({
     bg: { src: 'base/Bg' },
     body: { src: 'base/Body' },
-    hair: { src: `${randomPart('hairs/Hair', 32)}` },
-    eyes: { src: `${randomPart('eyes/Eye', 6)}` },
-    mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
-    head: { src: `${randomPart('faces/Face', 8)}` },
-    outfit: { src: `${randomPart('outfits/Outfit', 25)}` },
-    accessories: { src: `${randomPart('accessories/Accessory', 18)}` },
+    hair: { src: 'hairs/Hair01' },
+    eyes: { src: 'eyes/Eye01' },
+    mouth: { src: 'mouths/Mouth01' },
+    head: { src: 'faces/Face01' },
+    outfit: { src: 'outfits/Outfit01' },
+    accessories: { src: 'accessories/Accessory01' },
   });
+
+  useEffect(() => {
+    setAvatar({
+      bg: { src: 'base/Bg' },
+      body: { src: 'base/Body' },
+      hair: { src: `${randomPart('hairs/Hair', 32)}` },
+      eyes: { src: `${randomPart('eyes/Eye', 6)}` },
+      mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
+      head: { src: `${randomPart('faces/Face', 8)}` },
+      outfit: { src: `${randomPart('outfits/Outfit', 25)}` },
+      accessories: { src: `${randomPart('accessories/Accessory', 18)}` },
+    });
+  }, []);
 
   return (
     <>
