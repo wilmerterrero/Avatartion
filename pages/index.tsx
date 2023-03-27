@@ -114,7 +114,7 @@ export default function Home() {
         />
         <meta
           name="twitter:image"
-          content="https://example.com/avatartion.jpg"
+          content="https://avatartion.com/avatartion_og.png"
         />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
