@@ -1,0 +1,34 @@
+.avatar-canvas {
+  transform: scale(0.6);
+  transform-origin: top left;
+}
+
+.avatar-part {
+  position: absolute;
+  pointer-events: none;
+}
+
+.bg {
+  z-index: 1;
+}
+.body {
+  z-index: 2;
+}
+.outfit {
+  z-index: 3;
+}
+.head {
+  z-index: 4;
+}
+.hair {
+  z-index: 5;
+}
+.eyes {
+  z-index: 6;
+}
+.mouth {
+  z-index: 7;
+}
+.accessories {
+  z-index: 8;
+}
