@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from '~/styles/AvatarCanvas.module.css';
 
-interface AvatarPart {
+type AvatarPart = {
   src: string;
-}
+};
 
-interface AvatarCanvasProps {
-  bg: AvatarPart;
+type AvatarCanvasProps = {
+  bg: string;
   hair: AvatarPart;
   eyes: AvatarPart;
   mouth: AvatarPart;
@@ -14,38 +14,38 @@ interface AvatarCanvasProps {
   outfit: AvatarPart;
   body: AvatarPart;
   accessories: AvatarPart;
-}
+} & React.HTMLAttributes<HTMLDivElement>;
 
-const AvatarCanvas: React.FC<AvatarCanvasProps> = ({
-  hair,
-  eyes,
-  mouth,
-  head,
-  outfit,
-  body,
-  accessories,
-}) => {
-  const renderAvatarPart = (part: AvatarPart, type: string) => {
-    const Part = require(`~/components/parts/${part.src}`).default;
+// eslint-disable-next-line react/display-name
+export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
+  (
+    { bg = 'bg-red-300', hair, eyes, mouth, head, outfit, body, accessories, ...rest },
+    ref
+  ) => {
+    const renderAvatarPart = (part: AvatarPart, type: string) => {
+      const Part = require(`~/components/parts/${part.src}`).default;
+      return (
+        <Part
+          className={`${styles['avatar-part']} ${styles[type]}`}
+          alt={`${part.src}-${type}`}
+        />
+      );
+    };
+
     return (
-      <Part
-        className={`${styles['avatar-part']} ${styles[type]}`}
-        alt={`${part.src}-${type}`}
-      />
+      <div
+        ref={ref}
+        className={`absolute w-80 h-[294px] overflow-hidden ${bg} rounded-2xl`}
+        {...rest}
+      >
+        {renderAvatarPart(body, 'body')}
+        {renderAvatarPart(hair, 'hair')}
+        {renderAvatarPart(eyes, 'eyes')}
+        {renderAvatarPart(mouth, 'mouth')}
+        {renderAvatarPart(head, 'head')}
+        {renderAvatarPart(outfit, 'outfit')}
+        {renderAvatarPart(accessories, 'accessories')}
+      </div>
     );
-  };
-
-  return (
-    <div className="absolute w-80 h-[294px] overflow-hidden bg-red-300 rounded-2xl">
-      {renderAvatarPart(body, 'body')}
-      {renderAvatarPart(hair, 'hair')}
-      {renderAvatarPart(eyes, 'eyes')}
-      {renderAvatarPart(mouth, 'mouth')}
-      {renderAvatarPart(head, 'head')}
-      {renderAvatarPart(outfit, 'outfit')}
-      {renderAvatarPart(accessories, 'accessories')}
-    </div>
-  );
-};
-
-export default AvatarCanvas;
+  }
+);
