@@ -19,7 +19,17 @@ type AvatarCanvasProps = {
 // eslint-disable-next-line react/display-name
 export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
   (
-    { bg = 'bg-red-300', hair, eyes, mouth, head, outfit, body, accessories, ...rest },
+    {
+      bg = 'bg-red-300',
+      hair,
+      eyes,
+      mouth,
+      head,
+      outfit,
+      body,
+      accessories,
+      ...rest
+    },
     ref
   ) => {
     const renderAvatarPart = (part: AvatarPart, type: string) => {

@@ -101,7 +101,10 @@ export default function Home() {
           property="og:description"
           content="Avatartion is the perfect tool to generate a personalized Notion-style avatar. With Avatartion, you can create a unique avatar by choosing different facial features, clothing, and accessories."
         />
-        <meta property="og:image" content="https://avatartion.com/avatartion_og.png" />
+        <meta
+          property="og:image"
+          content="https://avatartion.com/avatartion_og.png"
+        />
         <meta property="og:url" content="https://avatartion.com" />
         <meta property="og:type" content="website" />
         <meta
@@ -141,120 +144,124 @@ export default function Home() {
       </Head>
       <div className="min-h-screen">
         <div className="mx-auto p-4 text-center sm:w-3/4 md:w-1/2">
-          <div className="flex items-center justify-center mb-4">
+          <div className="flex items-center justify-center pt-[5vh] sm:mb-[5vh] md:mb-[2vh] lg:mb-[4vh]">
             <h1 className="font-bold text-3xl">Avatartion</h1>
           </div>
-          <div className="flex items-center justify-center h-[350px] md:h-[400px]">
+          <div className="flex items-center justify-center h-[44vh] md:h-[40vh]">
             <AvatarCanvas {...avatar} ref={avatarCanvasRef} />
-          </div>
-          <div className="fixed bottom-10 md:bottom-1/3 left-0 w-full bg-white flex items-center justify-center">
-            <div className="flex flex-col items-center justify-center max-w-4xl mx-auto px-4 py-3 space-y-2">
-              <div className="flex space-x-2 md:space-x-4">
-                <AvatarTooltip text="Face">
-                  <AvatarPartPicker
-                    path={avatar.head.src}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        head: { src: `${randomPart('faces/Face', 8)}` },
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Hair">
-                  <AvatarPartPicker
-                    path={avatar.hair.src}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        hair: { src: `${randomPart('hairs/Hair', 32)}` },
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Eyes">
-                  <AvatarPartPicker
-                    path={avatar.eyes.src}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        eyes: { src: `${randomPart('eyes/Eye', 6)}` },
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Mouth">
-                  <AvatarPartPicker
-                    path={avatar.mouth.src}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Outfit">
-                  <AvatarPartPicker
-                    path={avatar.outfit.src}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        outfit: { src: `${randomPart('outfits/Outfit', 25)}` },
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Accessories" width={60}>
-                  <AvatarPartPicker
-                    path={avatar.accessories.src}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        accessories: {
-                          src: `${randomPart('accessories/Accessory', 18)}`,
-                        },
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-              </div>
-              <div className="flex space-x-2 md:space-x-4">
-                <AvatarTooltip text="Download" width={60}>
-                  <AvatarPartPicker
-                    path="base/Download"
-                    onClick={() => handleDownload()}
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Randomize" width={60}>
-                  <AvatarPartPicker
-                    path="base/Reload"
-                    onClick={() => randomize()}
-                  />
-                </AvatarTooltip>
-                <AvatarTooltip text="Background" width={60}>
-                  <AvatarBackgroundPicker
-                    color={avatar.bg}
-                    onClick={() =>
-                      setAvatar({
-                        ...avatar,
-                        bg: colors[Math.floor(Math.random() * colors.length)],
-                      })
-                    }
-                  />
-                </AvatarTooltip>
-              </div>
-              <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 pt-5">
-                <p className="text-sm">
-                  Made by{' '}
-                  <a className="" href="https://twitter.com/wilterrero">
-                    Wilmer Terrero
-                  </a>
-                </p>
-                <span className="text-gray-400 text-sm hidden md:block">|</span>
-                <p className="text-sm">
-                  Artwork by <a href="https://www.drawkit.com/">Drawkit</a>
-                </p>
+            <div className="pt-[600px]">
+              <div className="flex flex-col items-center justify-center max-w-4xl mx-auto px-4 py-3 space-y-2">
+                <div className="flex space-x-2 md:space-x-4">
+                  <AvatarTooltip text="Face">
+                    <AvatarPartPicker
+                      path={avatar.head.src}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          head: { src: `${randomPart('faces/Face', 8)}` },
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Hair">
+                    <AvatarPartPicker
+                      path={avatar.hair.src}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          hair: { src: `${randomPart('hairs/Hair', 32)}` },
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Eyes">
+                    <AvatarPartPicker
+                      path={avatar.eyes.src}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          eyes: { src: `${randomPart('eyes/Eye', 6)}` },
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Mouth">
+                    <AvatarPartPicker
+                      path={avatar.mouth.src}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Outfit">
+                    <AvatarPartPicker
+                      path={avatar.outfit.src}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          outfit: {
+                            src: `${randomPart('outfits/Outfit', 25)}`,
+                          },
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Accessories" width={60}>
+                    <AvatarPartPicker
+                      path={avatar.accessories.src}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          accessories: {
+                            src: `${randomPart('accessories/Accessory', 18)}`,
+                          },
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                </div>
+                <div className="flex space-x-2 md:space-x-4">
+                  <AvatarTooltip text="Download" width={60}>
+                    <AvatarPartPicker
+                      path="base/Download"
+                      onClick={() => handleDownload()}
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Randomize" width={60}>
+                    <AvatarPartPicker
+                      path="base/Reload"
+                      onClick={() => randomize()}
+                    />
+                  </AvatarTooltip>
+                  <AvatarTooltip text="Background" width={60}>
+                    <AvatarBackgroundPicker
+                      color={avatar.bg}
+                      onClick={() =>
+                        setAvatar({
+                          ...avatar,
+                          bg: colors[Math.floor(Math.random() * colors.length)],
+                        })
+                      }
+                    />
+                  </AvatarTooltip>
+                </div>
+                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 pt-5">
+                  <p className="text-sm">
+                    Made by{' '}
+                    <a className="" href="https://twitter.com/wilterrero">
+                      Wilmer Terrero
+                    </a>
+                  </p>
+                  <span className="text-gray-400 text-sm hidden md:block">
+                    |
+                  </span>
+                  <p className="text-sm">
+                    Artwork by <a href="https://www.drawkit.com/">Drawkit</a>
+                  </p>
+                </div>
               </div>
             </div>
           </div>
