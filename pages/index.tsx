@@ -7,6 +7,7 @@ import { AvatarBackgroundPicker } from '~/components/AvatarBackgroundPicker';
 import { AvatarCanvas } from '~/components/AvatarCanvas';
 import { AvatarPartPicker } from '~/components/AvatarPartPicker';
 import { AvatarTooltip } from '~/components/AvatarTooltip';
+import AvatarPartModal from '~/components/AvatarPartModal';
 
 const randomPart = (src: string, qty: number) =>
   `${src}${Math.floor(Math.random() * qty + 1)
@@ -35,11 +36,18 @@ export default function Home() {
     outfit: { src: 'outfits/Outfit01' },
     accessories: { src: 'accessories/Accessory01' },
   });
-  const avatarCanvasRef = useRef<HTMLDivElement | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [modalAttrs, setModalAttrs] = useState({
+    title: '',
+    part: '',
+    src: '',
+    qty: 0,
+  });
   const [playClickSound] = useSound('/click_sound.mp3');
   const [playBoingSound] = useSound('/boing.mp3', {
     volume: 0.25,
   });
+  const avatarCanvasRef = useRef<HTMLDivElement | null>(null);
 
   const handleRandomize = () => {
     playBoingSound();
@@ -90,6 +98,31 @@ export default function Home() {
     playClickSound();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatarCanvasRef]);
+
+  const openModal = ({
+    title,
+    part,
+    src,
+    qty,
+  }: {
+    title: string;
+    part: string;
+    src: string;
+    qty: number;
+  }) => {
+    setIsModalOpen(true);
+    playClickSound();
+    setModalAttrs({ title, src, part, qty });
+  };
+
+  const closeModal = (part: string, src: string) => {
+    setIsModalOpen(false);
+    playClickSound();
+    setAvatar((prev) => ({
+      ...prev,
+      [part]: { src },
+    }));
+  };
 
   useEffect(() => {
     setAvatar({
@@ -175,13 +208,24 @@ export default function Home() {
           <div className="flex items-center justify-center h-[44vh] md:h-[47vh]">
             <AvatarCanvas {...avatar} ref={avatarCanvasRef} />
           </div>
+          <AvatarPartModal
+            {...modalAttrs}
+            isOpen={isModalOpen}
+            onPartSelected={(part, src) => closeModal(part, src)}
+            onClose={() => setIsModalOpen(false)}
+          />
           <div className="flex flex-col items-center justify-center px-4 py-3 space-y-2">
             <div className="flex space-x-2 md:space-x-4">
               <AvatarTooltip text="Face">
                 <AvatarPartPicker
                   path={avatar.head.src}
                   onClick={() =>
-                    handlePartChange('head', `${randomPart('faces/Face', 8)}`)
+                    openModal({
+                      title: 'Faces',
+                      part: 'head',
+                      src: 'faces/Face',
+                      qty: 8,
+                    })
                   }
                 />
               </AvatarTooltip>
@@ -189,7 +233,12 @@ export default function Home() {
                 <AvatarPartPicker
                   path={avatar.hair.src}
                   onClick={() =>
-                    handlePartChange('hair', `${randomPart('hairs/Hair', 32)}`)
+                    openModal({
+                      title: 'Hairs',
+                      part: 'hair',
+                      src: 'hairs/Hair',
+                      qty: 32,
+                    })
                   }
                 />
               </AvatarTooltip>
@@ -197,7 +246,12 @@ export default function Home() {
                 <AvatarPartPicker
                   path={avatar.eyes.src}
                   onClick={() =>
-                    handlePartChange('eyes', `${randomPart('eyes/Eye', 6)}`)
+                    openModal({
+                      title: 'Eyes',
+                      part: 'eyes',
+                      src: 'eyes/Eye',
+                      qty: 6,
+                    })
                   }
                 />
               </AvatarTooltip>
@@ -205,10 +259,12 @@ export default function Home() {
                 <AvatarPartPicker
                   path={avatar.mouth.src}
                   onClick={() =>
-                    handlePartChange(
-                      'mouth',
-                      `${randomPart('mouths/Mouth', 10)}`
-                    )
+                    openModal({
+                      title: 'Mouths',
+                      part: 'mouth',
+                      src: 'mouths/Mouth',
+                      qty: 10,
+                    })
                   }
                 />
               </AvatarTooltip>
@@ -216,10 +272,12 @@ export default function Home() {
                 <AvatarPartPicker
                   path={avatar.outfit.src}
                   onClick={() =>
-                    handlePartChange(
-                      'outfit',
-                      `${randomPart('outfits/Outfit', 25)}`
-                    )
+                    openModal({
+                      title: 'Outfits',
+                      part: 'outfit',
+                      src: 'outfits/Outfit',
+                      qty: 25,
+                    })
                   }
                 />
               </AvatarTooltip>
@@ -227,10 +285,12 @@ export default function Home() {
                 <AvatarPartPicker
                   path={avatar.accessories.src}
                   onClick={() =>
-                    handlePartChange(
-                      'accessories',
-                      `${randomPart('accessories/Accessory', 18)}`
-                    )
+                    openModal({
+                      title: 'Accessories',
+                      part: 'accessories',
+                      src: 'accessories/Accessory',
+                      qty: 18,
+                    })
                   }
                 />
               </AvatarTooltip>
