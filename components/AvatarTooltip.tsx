@@ -10,28 +10,28 @@ type Props = {
 };
 
 const Tooltip = ({ text, width = 20, children }: Props) => {
-  const [showPopover, setShowPopover] = useState(false);
+  const [showTooltip, setShowTooltip] = useState(false);
   const isMobile = useMediaQuery('(max-width: 640px)');
-
-  const handlePopoverToggle = () => {
-    setShowPopover(!showPopover);
-  };
 
   if (isMobile) {
     return <>{children}</>;
   }
 
   return (
-    <div className="relative inline-block">
+    <div className="relative">
       <div
-        className="inline-block"
-        onMouseEnter={handlePopoverToggle}
-        onMouseLeave={handlePopoverToggle}
+        className='inline-block'
+        onMouseEnter={() => {
+            setShowTooltip(true)
+          }}
+        onMouseLeave={() => {
+            setShowTooltip(false)
+          }}
       >
         {children}
       </div>
       <Transition
-        show={showPopover}
+        show={showTooltip}
         enter="transition duration-100 ease-out"
         enterFrom="transform scale-95 opacity-0"
         enterTo="transform scale-100 opacity-100"
@@ -41,7 +41,7 @@ const Tooltip = ({ text, width = 20, children }: Props) => {
       >
         {(ref) => (
           <div
-            className={`absolute z-10 w-${width} p-2 bg-black rounded-lg shadow-lg -top-28 left-1/2 transform -translate-x-1/2`}
+            className={`absolute z-10 w-${width} p-2 bg-black rounded-lg shadow-lg -top-[110px] left-1/2 transform -translate-x-1/2`}
             ref={ref}
           >
             <p className="text-white">{text}</p>

@@ -1,16 +1,17 @@
 import React from 'react';
+import { AvatarButtonPickerContainer } from './AvatarButtonPickerContainer';
 
 type Props = {
   color: string;
 } & React.ButtonHTMLAttributes<HTMLButtonElement>;
 export const AvatarBackgroundPicker = ({ color, ...rest }: Props) => {
   return (
-    <button
-      type="button"
-      className="w-12 h-12 p-6 border-2 border-black rounded-full overflow-hidden flex-col items-center justify-center"
+    <AvatarButtonPickerContainer
       {...rest}
     >
-      <div className={`w-12 h-12 ${color}`} />
-    </button>
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className={`w-12 h-12 ${color}`} />
+      </div>
+    </AvatarButtonPickerContainer>
   );
 };

@@ -1,11 +1,12 @@
 import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import html2canvas from 'html2canvas';
+import useSound from 'use-sound';
 
 import { AvatarBackgroundPicker } from '~/components/AvatarBackgroundPicker';
 import { AvatarCanvas } from '~/components/AvatarCanvas';
 import { AvatarPartPicker } from '~/components/AvatarPartPicker';
 import { AvatarTooltip } from '~/components/AvatarTooltip';
-import html2canvas from 'html2canvas';
 
 const randomPart = (src: string, qty: number) =>
   `${src}${Math.floor(Math.random() * qty + 1)
@@ -34,9 +35,15 @@ export default function Home() {
     outfit: { src: 'outfits/Outfit01' },
     accessories: { src: 'accessories/Accessory01' },
   });
+  const [isMuted, setIsMuted] = useState(false);
   const avatarCanvasRef = useRef<HTMLDivElement | null>(null);
+  const [playClickSound] = useSound('/click_sound.mp3');
+  const [playBoingSound] = useSound('/boing.mp3', {
+    volume: 0.25,
+  });
 
-  const randomize = () => {
+  const handleRandomize = () => {
+    playBoingSound();
     setAvatar({
       bg: colors[Math.floor(Math.random() * colors.length)],
       body: { src: 'base/Body' },
@@ -46,6 +53,22 @@ export default function Home() {
       head: { src: `${randomPart('faces/Face', 8)}` },
       outfit: { src: `${randomPart('outfits/Outfit', 25)}` },
       accessories: { src: `${randomPart('accessories/Accessory', 18)}` },
+    });
+  };
+
+  const handlePartChange = (part: string, src: string) => {
+    playClickSound();
+    setAvatar((prev) => ({
+      ...prev,
+      [part]: { src },
+    }));
+  };
+
+  const handleBackgroundChange = () => {
+    playClickSound();
+    setAvatar({
+      ...avatar,
+      bg: colors[Math.floor(Math.random() * colors.length)],
     });
   };
 
@@ -144,125 +167,112 @@ export default function Home() {
       </Head>
       <div className="min-h-screen">
         <div className="mx-auto p-4 text-center sm:w-3/4 md:w-1/2">
-          <div className="flex items-center justify-center pt-[5vh] sm:mb-[5vh] md:mb-[2vh] lg:mb-[4vh]">
+          <div className="flex items-center justify-center pt-[5vh] mb-4 md:mb-0">
             <h1 className="font-bold text-3xl">Avatartion</h1>
           </div>
-          <div className="flex items-center justify-center h-[44vh] md:h-[40vh]">
+          <div className="flex items-center justify-center h-[44vh] md:h-[47vh]">
             <AvatarCanvas {...avatar} ref={avatarCanvasRef} />
-            <div className="pt-[600px]">
-              <div className="flex flex-col items-center justify-center max-w-4xl mx-auto px-4 py-3 space-y-2">
-                <div className="flex space-x-2 md:space-x-4">
-                  <AvatarTooltip text="Face">
-                    <AvatarPartPicker
-                      path={avatar.head.src}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          head: { src: `${randomPart('faces/Face', 8)}` },
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Hair">
-                    <AvatarPartPicker
-                      path={avatar.hair.src}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          hair: { src: `${randomPart('hairs/Hair', 32)}` },
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Eyes">
-                    <AvatarPartPicker
-                      path={avatar.eyes.src}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          eyes: { src: `${randomPart('eyes/Eye', 6)}` },
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Mouth">
-                    <AvatarPartPicker
-                      path={avatar.mouth.src}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Outfit">
-                    <AvatarPartPicker
-                      path={avatar.outfit.src}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          outfit: {
-                            src: `${randomPart('outfits/Outfit', 25)}`,
-                          },
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Accessories" width={60}>
-                    <AvatarPartPicker
-                      path={avatar.accessories.src}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          accessories: {
-                            src: `${randomPart('accessories/Accessory', 18)}`,
-                          },
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                </div>
-                <div className="flex space-x-2 md:space-x-4">
-                  <AvatarTooltip text="Download" width={60}>
-                    <AvatarPartPicker
-                      path="base/Download"
-                      onClick={() => handleDownload()}
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Randomize" width={60}>
-                    <AvatarPartPicker
-                      path="base/Reload"
-                      onClick={() => randomize()}
-                    />
-                  </AvatarTooltip>
-                  <AvatarTooltip text="Background" width={60}>
-                    <AvatarBackgroundPicker
-                      color={avatar.bg}
-                      onClick={() =>
-                        setAvatar({
-                          ...avatar,
-                          bg: colors[Math.floor(Math.random() * colors.length)],
-                        })
-                      }
-                    />
-                  </AvatarTooltip>
-                </div>
-                <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 pt-5">
-                  <p className="text-sm">
-                    Made by{' '}
-                    <a className="" href="https://twitter.com/wilterrero">
-                      Wilmer Terrero
-                    </a>
-                  </p>
-                  <span className="text-gray-400 text-sm hidden md:block">
-                    |
-                  </span>
-                  <p className="text-sm">
-                    Artwork by <a href="https://www.drawkit.com/">Drawkit</a>
-                  </p>
-                </div>
-              </div>
+          </div>
+          <div className="flex flex-col items-center justify-center px-4 py-3 space-y-2">
+            <div className="flex space-x-2 md:space-x-4">
+              <AvatarTooltip text="Face">
+                <AvatarPartPicker
+                  path={avatar.head.src}
+                  onClick={() =>
+                    handlePartChange('head', `${randomPart('faces/Face', 8)}`)
+                  }
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Hair">
+                <AvatarPartPicker
+                  path={avatar.hair.src}
+                  onClick={() =>
+                    handlePartChange('hair', `${randomPart('hairs/Hair', 32)}`)
+                  }
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Eyes">
+                <AvatarPartPicker
+                  path={avatar.eyes.src}
+                  onClick={() =>
+                    handlePartChange('eyes', `${randomPart('eyes/Eye', 6)}`)
+                  }
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Mouth">
+                <AvatarPartPicker
+                  path={avatar.mouth.src}
+                  onClick={() =>
+                    handlePartChange(
+                      'mouth',
+                      `${randomPart('mouths/Mouth', 10)}`
+                    )
+                  }
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Outfit">
+                <AvatarPartPicker
+                  path={avatar.outfit.src}
+                  onClick={() =>
+                    handlePartChange(
+                      'outfit',
+                      `${randomPart('outfits/Outfit', 25)}`
+                    )
+                  }
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Accessories" width={60}>
+                <AvatarPartPicker
+                  path={avatar.accessories.src}
+                  onClick={() =>
+                    handlePartChange(
+                      'accessories',
+                      `${randomPart('accessories/Accessory', 18)}`
+                    )
+                  }
+                />
+              </AvatarTooltip>
+            </div>
+            <div className="flex space-x-2 md:space-x-4">
+              <AvatarTooltip text="Download" width={60}>
+                <AvatarPartPicker
+                  path="base/Download"
+                  onClick={() => handleDownload()}
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Randomize" width={60}>
+                <AvatarPartPicker
+                  path="base/Reload"
+                  onClick={() => handleRandomize()}
+                />
+              </AvatarTooltip>
+              <AvatarTooltip text="Background" width={60}>
+                <AvatarBackgroundPicker
+                  color={avatar.bg}
+                  onClick={() => handleBackgroundChange()}
+                />
+              </AvatarTooltip>
+            </div>
+            <div className="flex flex-col md:flex-row space-y-2 md:space-y-0 md:space-x-2 pt-5">
+              <p className="text-sm">
+                Made by{' '}
+                <a
+                  className="hover:text-black hover:underline transition duration-300 ease-in-out"
+                  href="https://twitter.com/wilterrero"
+                >
+                  Wilmer Terrero
+                </a>
+              </p>
+              <span className="text-gray-400 text-sm hidden md:block">|</span>
+              <p className="text-sm">
+                Artwork by{' '}
+                <a
+                  className="hover:text-black hover:underline transition duration-300 ease-in-out"
+                  href="https://www.drawkit.com/"
+                >
+                  Drawkit
+                </a>
+              </p>
             </div>
           </div>
         </div>
