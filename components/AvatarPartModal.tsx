@@ -14,6 +14,20 @@ type Props = {
   onClose: () => void;
   onPartSelected: (part: string, src: string) => void;
 };
+
+// to fix the weird scaling issue, we need to use a fixed width for the modal
+const AvatartPartForModal = ({ path }: { path: string }) => {
+  const Part = require(`~/components/parts/${path}`).default;
+
+  return (
+    <div className="w-12 h-12 relative">
+      <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 scale-[0.4]">
+        <Part />
+      </div>
+    </div>
+  );
+};
+
 const AvatarPartModal = ({
   title,
   part,
@@ -104,7 +118,7 @@ const AvatarPartModal = ({
                         }}
                       >
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <AvatarPart path={path} scale={0.4} />
+                          <AvatartPartForModal path={path} />
                         </div>
                       </AvatarButtonPickerContainer>
                     );
