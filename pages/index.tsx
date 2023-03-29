@@ -35,7 +35,6 @@ export default function Home() {
     outfit: { src: 'outfits/Outfit01' },
     accessories: { src: 'accessories/Accessory01' },
   });
-  const [isMuted, setIsMuted] = useState(false);
   const avatarCanvasRef = useRef<HTMLDivElement | null>(null);
   const [playClickSound] = useSound('/click_sound.mp3');
   const [playBoingSound] = useSound('/boing.mp3', {
@@ -87,6 +86,9 @@ export default function Home() {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
+
+    playClickSound();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatarCanvasRef]);
 
   useEffect(() => {
@@ -165,7 +167,7 @@ export default function Home() {
         <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#000000" />
         <meta name="theme-color" content="#ffffff" />
       </Head>
-      <div className="min-h-screen">
+      <div className="min-h-screen overflow-hidden">
         <div className="mx-auto p-4 text-center sm:w-3/4 md:w-1/2">
           <div className="flex items-center justify-center pt-[5vh] mb-4 md:mb-0">
             <h1 className="font-bold text-3xl">Avatartion</h1>
