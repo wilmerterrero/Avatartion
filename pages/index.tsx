@@ -214,7 +214,7 @@ export default function Home() {
             onPartSelected={(part, src) => closeModal(part, src)}
             onClose={() => setIsModalOpen(false)}
           />
-          <div className="flex flex-col items-center justify-center px-4 py-3 space-y-2">
+          <div className="flex flex-col items-center justify-center px-4 pt-6 pb-3 space-y-2">
             <div className="flex space-x-2 md:space-x-4">
               <AvatarTooltip text="Face">
                 <AvatarPartPicker
