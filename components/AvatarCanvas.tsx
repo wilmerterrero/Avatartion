@@ -14,6 +14,7 @@ type AvatarCanvasProps = {
   outfit: AvatarPart;
   body: AvatarPart;
   accessories: AvatarPart;
+  facialHair: AvatarPart;
 } & React.HTMLAttributes<HTMLDivElement>;
 
 // eslint-disable-next-line react/display-name
@@ -28,6 +29,7 @@ export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
       outfit,
       body,
       accessories,
+      facialHair,
       ...rest
     },
     ref
@@ -55,6 +57,7 @@ export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
         {renderAvatarPart(head, 'head')}
         {renderAvatarPart(outfit, 'outfit')}
         {renderAvatarPart(accessories, 'accessories')}
+        {renderAvatarPart(facialHair, 'facial-hair')}
       </div>
     );
   }

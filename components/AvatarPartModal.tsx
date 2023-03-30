@@ -1,7 +1,6 @@
 import React, { Fragment, useState } from 'react';
 import { Dialog, Transition } from '@headlessui/react';
 
-import { AvatarPart } from './AvatarPart';
 import { AvatarButtonPickerContainer } from './AvatarButtonPickerContainer';
 import { AvatarPartPagination } from './AvatarPartPagination';
 
@@ -100,7 +99,7 @@ const AvatarPartModal = ({
                     Parts available: {qty}
                   </p>
                 </div>
-                <div className="grid grid-cols-3 gap-10 md:grid-cols-4 md:gap-4 py-4 mx-8 px-4 justify-items-center items-center">
+                <div className="grid grid-cols-3 gap-10 md:grid-cols-4 md:gap-4 py-4 -mx-2 md:-mx-4 px-4 justify-items-center items-center">
                   {itemsToDisplay.map((index) => {
                     if (index >= qty) return null;
                     const path = `${src}${(index + 1)
@@ -109,7 +108,7 @@ const AvatarPartModal = ({
                     return (
                       <AvatarButtonPickerContainer
                         key={path}
-                        className="h-24 p-10 overflow-hidden relative"
+                        className="h-24 w-24 p-10 border-2 border-black rounded-xl overflow-hidden relative"
                         onClick={() => {
                           onPartSelected(part, path);
                           onClose();

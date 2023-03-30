@@ -1,5 +1,5 @@
 import * as React from 'react';
-const SvgAccessory18 = (props) => (
+const SvgFacialHair08 = (props) => (
   <svg
     xmlns="http://www.w3.org/2000/svg"
     width={306}
@@ -13,4 +13,4 @@ const SvgAccessory18 = (props) => (
     />
   </svg>
 );
-export default SvgAccessory18;
+export default SvgFacialHair08;

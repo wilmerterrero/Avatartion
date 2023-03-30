@@ -29,6 +29,9 @@
 .mouth {
   z-index: 7;
 }
-.accessories {
+.facial-hair {
   z-index: 8;
+}
+.accessories {
+  z-index: 9;
 }

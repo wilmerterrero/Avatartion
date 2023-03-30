@@ -35,6 +35,7 @@ export default function Home() {
     head: { src: 'faces/Face01' },
     outfit: { src: 'outfits/Outfit01' },
     accessories: { src: 'accessories/Accessory01' },
+    facialHair: { src: 'facial-hair/FacialHair01' },
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [modalAttrs, setModalAttrs] = useState({
@@ -59,16 +60,9 @@ export default function Home() {
       mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
       head: { src: `${randomPart('faces/Face', 8)}` },
       outfit: { src: `${randomPart('outfits/Outfit', 25)}` },
-      accessories: { src: `${randomPart('accessories/Accessory', 18)}` },
+      accessories: { src: `${randomPart('accessories/Accessory', 10)}` },
+      facialHair: { src: `${randomPart('facial-hair/FacialHair', 8)}` },
     });
-  };
-
-  const handlePartChange = (part: string, src: string) => {
-    playClickSound();
-    setAvatar((prev) => ({
-      ...prev,
-      [part]: { src },
-    }));
   };
 
   const handleBackgroundChange = () => {
@@ -133,7 +127,8 @@ export default function Home() {
       mouth: { src: `${randomPart('mouths/Mouth', 10)}` },
       head: { src: `${randomPart('faces/Face', 8)}` },
       outfit: { src: `${randomPart('outfits/Outfit', 25)}` },
-      accessories: { src: `${randomPart('accessories/Accessory', 18)}` },
+      accessories: { src: `${randomPart('accessories/Accessory', 10)}` },
+      facialHair: { src: `${randomPart('facial-hair/FacialHair', 8)}` },
     });
   }, []);
 
@@ -281,6 +276,8 @@ export default function Home() {
                   }
                 />
               </AvatarTooltip>
+            </div>
+            <div className="flex space-x-2 md:space-x-4">
               <AvatarTooltip text="Accessories" width={60}>
                 <AvatarPartPicker
                   path={avatar.accessories.src}
@@ -289,13 +286,24 @@ export default function Home() {
                       title: 'Accessories',
                       part: 'accessories',
                       src: 'accessories/Accessory',
-                      qty: 18,
+                      qty: 10,
                     })
                   }
                 />
               </AvatarTooltip>
-            </div>
-            <div className="flex space-x-2 md:space-x-4">
+              <AvatarTooltip text="Others" width={60}>
+                <AvatarPartPicker
+                  path={avatar.facialHair.src}
+                  onClick={() =>
+                    openModal({
+                      title: 'Facial Hair',
+                      part: 'facialHair',
+                      src: 'facial-hair/FacialHair',
+                      qty: 8,
+                    })
+                  }
+                />
+              </AvatarTooltip>
               <AvatarTooltip text="Download" width={60}>
                 <AvatarPartPicker
                   path="base/Download"
