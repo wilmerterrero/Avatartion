@@ -30,3 +30,4 @@ export { default as Hair29 } from './Hair29';
 export { default as Hair30 } from './Hair30';
 export { default as Hair31 } from './Hair31';
 export { default as Hair32 } from './Hair32';
+export { default as Hair33 } from './Hair33';

@@ -83,7 +83,7 @@ export default function Home() {
       link = document.createElement('a');
 
     link.href = data;
-    link.download = 'avatartion.jpg';
+    link.download = 'avatartion';
 
     document.body.appendChild(link);
     link.click();
