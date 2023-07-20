@@ -1,4 +1,4 @@
-"use client"
+'use client';
 
 import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
@@ -11,7 +11,18 @@ import { AvatarPartPicker } from '~/components/AvatarPartPicker';
 import { AvatarTooltip } from '~/components/AvatarTooltip';
 import AvatarPartModal from '~/components/AvatarPartModal';
 import AvatarBackgroundModal from '~/components/AvatarBackgroundModal';
-import { backgrounds } from '~/constants/backgrounds';
+
+const backgrounds = [
+  'bg-transparent',
+  'bg-white',
+  'bg-red-300',
+  'bg-yellow-300',
+  'bg-green-300',
+  'bg-blue-300',
+  'bg-indigo-300',
+  'bg-purple-300',
+  'bg-pink-300',
+];
 
 const randomPart = (src: string, qty: number) =>
   `${src}${Math.floor(Math.random() * qty + 1)
@@ -72,9 +83,12 @@ export default function Home() {
       return;
     }
 
-    const options = avatar.bg === 'bg-transparent' ? {
-      backgroundColor: null,
-    } : {}
+    const options =
+      avatar.bg === 'bg-transparent'
+        ? {
+            backgroundColor: null,
+          }
+        : {};
 
     const canvas = await html2canvas(avatarCanvasRef.current, options),
       data = canvas.toDataURL('image/jpg'),
@@ -88,7 +102,7 @@ export default function Home() {
     document.body.removeChild(link);
 
     playClickSound();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [avatar, avatarCanvasRef]);
 
   const openModal = ({
