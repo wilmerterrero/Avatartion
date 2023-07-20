@@ -1,3 +1,5 @@
+"use client"
+
 import Head from 'next/head';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import html2canvas from 'html2canvas';
@@ -8,22 +10,13 @@ import { AvatarCanvas } from '~/components/AvatarCanvas';
 import { AvatarPartPicker } from '~/components/AvatarPartPicker';
 import { AvatarTooltip } from '~/components/AvatarTooltip';
 import AvatarPartModal from '~/components/AvatarPartModal';
+import AvatarBackgroundModal from '~/components/AvatarBackgroundModal';
+import { backgrounds } from '~/constants/backgrounds';
 
 const randomPart = (src: string, qty: number) =>
   `${src}${Math.floor(Math.random() * qty + 1)
     .toString()
     .padStart(2, '0')}`;
-
-const colors = [
-  'bg-white',
-  'bg-red-300',
-  'bg-yellow-300',
-  'bg-green-300',
-  'bg-blue-300',
-  'bg-indigo-300',
-  'bg-purple-300',
-  'bg-pink-300',
-];
 
 export default function Home() {
   const [avatar, setAvatar] = useState({
@@ -38,12 +31,15 @@ export default function Home() {
     facialHair: { src: 'facial-hair/FacialHair01' },
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isBackgroundModalOpen, setIsBackgroundModalOpen] = useState(false);
   const [modalAttrs, setModalAttrs] = useState({
     title: '',
     part: '',
     src: '',
     qty: 0,
+    activePart: '',
   });
+  const [activePart, setActivePart] = useState('');
   const [playClickSound] = useSound('/click_sound.mp3');
   const [playBoingSound] = useSound('/boing.mp3', {
     volume: 0.25,
@@ -53,7 +49,7 @@ export default function Home() {
   const handleRandomize = () => {
     playBoingSound();
     setAvatar({
-      bg: colors[Math.floor(Math.random() * colors.length)],
+      bg: backgrounds[Math.floor(Math.random() * backgrounds.length)],
       body: { src: 'base/Body' },
       hair: { src: `${randomPart('hairs/Hair', 32)}` },
       eyes: { src: `${randomPart('eyes/Eye', 6)}` },
@@ -63,14 +59,12 @@ export default function Home() {
       accessories: { src: `${randomPart('accessories/Accessory', 10)}` },
       facialHair: { src: `${randomPart('facial-hair/FacialHair', 8)}` },
     });
+    setActivePart('');
   };
 
-  const handleBackgroundChange = () => {
+  const openBackgroundModal = () => {
     playClickSound();
-    setAvatar({
-      ...avatar,
-      bg: colors[Math.floor(Math.random() * colors.length)],
-    });
+    setIsBackgroundModalOpen(true);
   };
 
   const handleDownload = useCallback(async () => {
@@ -78,7 +72,11 @@ export default function Home() {
       return;
     }
 
-    const canvas = await html2canvas(avatarCanvasRef.current),
+    let options = avatar.bg === 'bg-transparent' ? {
+      backgroundColor: null,
+    } : {}
+
+    const canvas = await html2canvas(avatarCanvasRef.current, options),
       data = canvas.toDataURL('image/jpg'),
       link = document.createElement('a');
 
@@ -106,12 +104,13 @@ export default function Home() {
   }) => {
     setIsModalOpen(true);
     playClickSound();
-    setModalAttrs({ title, src, part, qty });
+    setModalAttrs({ title, src, part, qty, activePart });
   };
 
   const closeModal = (part: string, src: string) => {
     setIsModalOpen(false);
     playClickSound();
+    setActivePart(src);
     setAvatar((prev) => ({
       ...prev,
       [part]: { src },
@@ -208,6 +207,15 @@ export default function Home() {
             isOpen={isModalOpen}
             onPartSelected={(part, src) => closeModal(part, src)}
             onClose={() => setIsModalOpen(false)}
+          />
+          <AvatarBackgroundModal
+            isOpen={isBackgroundModalOpen}
+            backgrounds={backgrounds}
+            activeBackground={avatar.bg}
+            onBackgroundSelected={(bg) =>
+              setAvatar((prev) => ({ ...prev, bg }))
+            }
+            onClose={() => setIsBackgroundModalOpen(false)}
           />
           <div className="flex flex-col items-center justify-center px-4 pt-6 pb-3 space-y-2">
             <div className="flex space-x-2 md:space-x-4">
@@ -319,7 +327,7 @@ export default function Home() {
               <AvatarTooltip text="Background" width={60}>
                 <AvatarBackgroundPicker
                   color={avatar.bg}
-                  onClick={() => handleBackgroundChange()}
+                  onClick={() => openBackgroundModal()}
                 />
               </AvatarTooltip>
             </div>
@@ -338,9 +346,19 @@ export default function Home() {
                 Artwork by{' '}
                 <a
                   className="hover:text-black hover:underline transition duration-300 ease-in-out"
-                  href="https://www.drawkit.com/"
+                  href="https://www.drawkit.com"
                 >
                   Drawkit
+                </a>
+              </p>
+              <span className="text-gray-400 text-sm hidden md:block">|</span>
+              <p className="text-sm">
+                Stars us on{' '}
+                <a
+                  className="hover:text-black hover:underline transition duration-300 ease-in-out"
+                  href="https://github.com/wilmerterrero/Avatartion"
+                >
+                  GitHub
                 </a>
               </p>
             </div>

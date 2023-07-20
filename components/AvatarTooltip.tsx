@@ -20,13 +20,13 @@ const Tooltip = ({ text, width = 20, children }: Props) => {
   return (
     <div className="relative">
       <div
-        className='inline-block'
+        className="inline-block"
         onMouseEnter={() => {
-            setShowTooltip(true)
-          }}
+          setShowTooltip(true);
+        }}
         onMouseLeave={() => {
-            setShowTooltip(false)
-          }}
+          setShowTooltip(false);
+        }}
       >
         {children}
       </div>
@@ -39,19 +39,16 @@ const Tooltip = ({ text, width = 20, children }: Props) => {
         leaveFrom="transform scale-100 opacity-100"
         leaveTo="transform scale-95 opacity-0"
       >
-        {(ref) => (
-          <div
-            className={`absolute z-10 w-${width} p-2 bg-black rounded-lg shadow-lg -top-[110px] left-1/2 transform -translate-x-1/2`}
-            ref={ref}
-          >
-            <p className="text-white">{text}</p>
-          </div>
-        )}
+        <div
+          className={`absolute z-10 w-${width} p-2 bg-black rounded-lg shadow-lg -top-[110px] left-1/2 transform -translate-x-1/2`}
+        >
+          <p className="text-white">{text}</p>
+        </div>
       </Transition>
     </div>
   );
 };
 
 export const AvatarTooltip = dynamic(() => Promise.resolve(Tooltip), {
-    ssr: false
+  ssr: false,
 });

@@ -1,55 +1,24 @@
-import React, { Fragment, useState } from 'react';
-import { Dialog, Transition } from '@headlessui/react';
-
+import { Transition, Dialog } from '@headlessui/react';
+import React, { Fragment } from 'react';
 import { AvatarButtonPickerContainer } from './AvatarButtonPickerContainer';
-import { AvatarPartPagination } from './AvatarPartPagination';
+import Image from 'next/image';
 
 type Props = {
-  title: string;
-  part: string;
-  activePart: string;
-  src: string;
-  qty: number;
+  backgrounds: string[];
   isOpen: boolean;
+  activeBackground: string;
+  onBackgroundSelected: (background: string) => void;
   onClose: () => void;
-  onPartSelected: (part: string, src: string) => void;
 };
 
-// to fix the weird scaling issue, we need to use a fixed width for the modal
-const AvatartPartForModal = ({ path }: { path: string }) => {
-  const Part = require(`~/components/parts/${path}`).default;
-
-  return (
-    <div className="w-12 h-12 relative">
-      <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 scale-[0.4]">
-        <Part />
-      </div>
-    </div>
-  );
-};
-
-const AvatarPartModal = ({
-  title,
-  part,
-  src,
-  qty,
+const AvatarBackgroundModal = ({
+  backgrounds,
+  activeBackground,
   isOpen,
-  activePart,
-  onPartSelected,
+  onBackgroundSelected,
   onClose,
 }: Props) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 8;
-  const totalPages = Math.ceil(qty / itemsPerPage);
-
-  const handlePageChange = (page: number) => {
-    setCurrentPage(page);
-  };
-
-  const startIndex = (currentPage - 1) * itemsPerPage;
-  const itemsToDisplay = [...Array(itemsPerPage)].map((_, i) => startIndex + i);
-  const isPaginationVisible = totalPages > 1;
-
+  const qty = backgrounds.length;
   return (
     <Transition appear show={isOpen} as={Fragment}>
       <Dialog
@@ -57,8 +26,6 @@ const AvatarPartModal = ({
         className="relative z-10"
         onClose={() => {
           onClose();
-          // reset page
-          setCurrentPage(1);
         }}
       >
         <Transition.Child
@@ -89,7 +56,7 @@ const AvatarPartModal = ({
                   as="h3"
                   className="text-lg font-medium leading-6 text-gray-900"
                 >
-                  {title}
+                  Backgrounds
                 </Dialog.Title>
                 <div className="mt-2">
                   <p className="text-sm">
@@ -98,41 +65,38 @@ const AvatarPartModal = ({
                 </div>
                 <div className="mt-2">
                   <p className="text-sm text-gray-500">
-                    Parts available: {qty}
+                    Colors available: {qty}
                   </p>
                 </div>
                 <div className="grid grid-cols-3 gap-10 md:grid-cols-4 md:gap-4 py-4 -mx-2 md:-mx-4 px-4 justify-items-center items-center">
-                  {itemsToDisplay.map((index) => {
-                    if (index >= qty) return null;
-                    const path = `${src}${(index + 1)
-                      .toString()
-                      .padStart(2, '0')}`;
-                    const hasSelectedPart = activePart === path
+                  {backgrounds.map((background) => {
+                    const hasSelectedPart = activeBackground === background;
                     return (
                       <AvatarButtonPickerContainer
-                        key={path}
+                        key={background}
                         className={`h-24 w-24 p-10 border-2 ${
                           hasSelectedPart ? 'border-blue-500' : 'border-black'
                         } rounded-xl overflow-hidden relative`}
                         onClick={() => {
-                          onPartSelected(part, path);
+                          onBackgroundSelected(background);
                           onClose();
                         }}
                       >
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <AvatartPartForModal path={path} />
+                          {background === 'bg-transparent' ? (
+                            <Image
+                              src="/transparent-bg.jpg"
+                              alt="transparent-bg"
+                              fill
+                            />
+                          ) : (
+                            <div className={`h-24 w-24 ${background}`} />
+                          )}
                         </div>
                       </AvatarButtonPickerContainer>
                     );
                   })}
                 </div>
-                {isPaginationVisible && (
-                  <AvatarPartPagination
-                    currentPage={currentPage}
-                    totalPages={totalPages}
-                    onPageChange={handlePageChange}
-                  />
-                )}
               </Dialog.Panel>
             </Transition.Child>
           </div>
@@ -142,4 +106,4 @@ const AvatarPartModal = ({
   );
 };
 
-export default AvatarPartModal;
+export default AvatarBackgroundModal;
