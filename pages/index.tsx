@@ -72,7 +72,7 @@ export default function Home() {
       return;
     }
 
-    let options = avatar.bg === 'bg-transparent' ? {
+    const options = avatar.bg === 'bg-transparent' ? {
       backgroundColor: null,
     } : {}
 
@@ -88,8 +88,8 @@ export default function Home() {
     document.body.removeChild(link);
 
     playClickSound();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [avatarCanvasRef]);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatar, avatarCanvasRef]);
 
   const openModal = ({
     title,
