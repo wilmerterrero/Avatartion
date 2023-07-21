@@ -1,0 +1,10 @@
+export { default as Mouth01 } from './Mouth01';
+export { default as Mouth02 } from './Mouth02';
+export { default as Mouth03 } from './Mouth03';
+export { default as Mouth04 } from './Mouth04';
+export { default as Mouth05 } from './Mouth05';
+export { default as Mouth06 } from './Mouth06';
+export { default as Mouth07 } from './Mouth07';
+export { default as Mouth08 } from './Mouth08';
+export { default as Mouth09 } from './Mouth09';
+export { default as Mouth10 } from './Mouth10';
