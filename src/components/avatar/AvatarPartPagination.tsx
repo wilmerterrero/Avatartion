@@ -1,5 +1,3 @@
-import React, { useState } from 'react';
-
 type Props = {
   currentPage: number;
   totalPages: number;
@@ -10,11 +8,8 @@ export const AvatarPartPagination = ({
   totalPages,
   onPageChange,
 }: Props) => {
-  const [visiblePages, setVisiblePages] = useState(5);
-  const [displayStart, setDisplayStart] = useState(1);
-
   const getPaginationRange = () => {
-    const totalPagesDisplay = Math.min(visiblePages, totalPages);
+    const totalPagesDisplay = totalPages;
     const half = Math.floor(totalPagesDisplay / 2);
     let start = currentPage - half + 1 - (totalPagesDisplay % 2);
     let end = currentPage + half;
@@ -35,7 +30,6 @@ export const AvatarPartPagination = ({
 
   const handlePageClick = (page: number) => {
     onPageChange(page);
-    setDisplayStart(page);
   };
 
   return (
