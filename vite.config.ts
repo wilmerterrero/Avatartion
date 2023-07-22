@@ -7,8 +7,11 @@ export default defineConfig(({ mode }) => {
   // Set the third parameter to '' to load all env regardless of the `VITE_` prefix.
   const env = loadEnv(mode, process.cwd(), "");
   return {
-    alias: {
-      '~components': './src/components'
+    rollupOptions: {
+      // Make sure src/components/parts is included in the bundle.
+      external: {
+        include: "src/components/parts/**",
+      }
     },
     plugins: [
       react(),
