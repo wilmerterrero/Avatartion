@@ -77,7 +77,7 @@ function App() {
                 type="button"
                 className={`transition-all duration-500 ease-in-out ${
                   showMoreEnabled
-                    ? "opacity-100 visible w-8 h-8 pt-4"
+                    ? "opacity-100 visible w-8 h-8 pt-4 mr-2"
                     : "opacity-0 invisible w-0 h-0 pt-0"
                 }`}
                 onClick={() => setShowMoreEnabled(false)}
