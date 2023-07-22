@@ -173,7 +173,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       text: "Face",
       path: avatar.head.src,
       title: "Faces",
-      part: "faces",
+      part: "head",
       src: "faces/Face",
       qty: 8,
     },
@@ -181,7 +181,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       text: "Hair",
       path: avatar.hair.src,
       title: "Hairs",
-      part: "hairs",
+      part: "hair",
       src: "hairs/Hair",
       qty: 32,
     },
@@ -197,7 +197,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       text: "Mouth",
       path: avatar.mouth.src,
       title: "Mouths",
-      part: "mouths",
+      part: "mouth",
       src: "mouths/Mouth",
       qty: 10,
     },
@@ -205,7 +205,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       text: "Outfit",
       path: avatar.outfit.src,
       title: "Outfits",
-      part: "outfits",
+      part: "outfit",
       src: "outfits/Outfit",
       qty: 25,
     },
@@ -222,14 +222,14 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       text: "Others",
       path: avatar.facialHair.src,
       title: "Facial Hair",
-      part: "facial-hair",
+      part: "facialHair",
       src: "facial-hair/FacialHair",
       qty: 8,
       width: 60,
     },
   ];
 
-  const excludedAvatarPartsPickers = ["facial-hair", "accessories"];
+  const excludedAvatarPartsPickers = ["facialHair", "accessories"];
   const filteredAvatarPartsPickers = showMoreEnabled
     ? avatarPartsPickers.filter((picker) =>
         excludedAvatarPartsPickers.includes(picker.part)
