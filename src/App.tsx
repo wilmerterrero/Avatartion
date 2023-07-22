@@ -17,13 +17,16 @@ function App() {
   const {
     avatar,
     avatarPartsPickers,
+    availableAvatarPartsPickers,
     isAvatarModalPickerOpen,
     isBackgroundModalOpen,
+    showMoreEnabled,
     avatarModal,
     avatarCanvasRef,
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,
+    setShowMoreEnabled,
     openAvatarModalPicker,
     closeAvatarModalPicker,
     openAvatarBackgroundModal,
@@ -68,8 +71,19 @@ function App() {
           onClose={() => setIsBackgroundModalOpen(false)}
         />
         <div className="flex flex-col items-center justify-center px-4 pt-6 space-y-2">
-          <div className="w-[280px] md:w-[400px] overflow-y-auto">
+          <div className="relative">
             <div className="flex space-x-2 md:space-x-4">
+              <button
+                type="button"
+                className={`w-8 h-8 pt-4 transition-all duration-500 ease-in-out ${
+                  showMoreEnabled
+                    ? "opacity-100 visible"
+                    : "opacity-0 invisible w-0"
+                }`}
+                onClick={() => setShowMoreEnabled(false)}
+              >
+                <span>Back</span>
+              </button>
               {avatarPartsPickers.map((picker) => (
                 <AvatarTooltip
                   key={picker.path}
@@ -82,6 +96,23 @@ function App() {
                   />
                 </AvatarTooltip>
               ))}
+            </div>
+            <div
+              className={`absolute top-0 right-[-20px] h-8 w-8 bg-black rounded-full transition-all duration-500 ease-in-out ${
+                showMoreEnabled
+                  ? "opacity-0 invisible w-0"
+                  : "opacity-100 visible"
+              }`}
+            >
+              <button
+                type="button"
+                className="w-full h-full"
+                onClick={() => setShowMoreEnabled(true)}
+              >
+                <span className="text-sm text-white font-bold underline">
+                  +{availableAvatarPartsPickers}
+                </span>
+              </button>
             </div>
           </div>
           <div className="flex space-x-2 md:space-x-4">
