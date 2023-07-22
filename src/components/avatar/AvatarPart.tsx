@@ -5,13 +5,11 @@ type Props = {
   path: string;
 };
 export const AvatarPart = ({ path }: Props) => {
-  const PartComponent = Part(path);
-
   return (
     <div className="w-12 h-12 relative">
       <div className="absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 scale-[0.2]">
         <Suspense>
-          <PartComponent />
+          <Part src={path} />
         </Suspense>
       </div>
     </div>

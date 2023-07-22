@@ -35,12 +35,11 @@ export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
     ref
   ) => {
     const renderAvatarPart = (part: AvatarPart, type: string) => {
-      const PartComponent = Part(part.src)
       return (
         <Suspense>
-          <PartComponent
+          <Part
+            src={part.src}
             className={`${styles["avatar-part"]} ${styles[type]}`}
-            alt={`${part.src}-${type}`}
           />
         </Suspense>
       );
