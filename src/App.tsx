@@ -75,10 +75,10 @@ function App() {
             <div className="flex space-x-2 md:space-x-4">
               <button
                 type="button"
-                className={`w-8 h-8 pt-4 transition-all duration-500 ease-in-out ${
+                className={`transition-all duration-500 ease-in-out ${
                   showMoreEnabled
-                    ? "opacity-100 visible"
-                    : "opacity-0 invisible w-0"
+                    ? "opacity-100 visible w-8 h-8 pt-4"
+                    : "opacity-0 invisible w-0 h-0 pt-0"
                 }`}
                 onClick={() => setShowMoreEnabled(false)}
               >
@@ -100,8 +100,8 @@ function App() {
             <div
               className={`absolute top-0 right-[-20px] h-8 w-8 bg-black rounded-full transition-all duration-500 ease-in-out ${
                 showMoreEnabled
-                  ? "opacity-0 invisible w-0"
-                  : "opacity-100 visible"
+                  ? "opacity-0 invisible w-0 h-0"
+                  : "opacity-100 visible w-8 h-8"
               }`}
             >
               <button
