@@ -28,9 +28,20 @@ type AvatarModal = {
   activePart?: string;
 };
 
+type AvatarPartPicker = {
+  text: string;
+  path: string;
+  title: string;
+  part: string;
+  src: string;
+  qty: number;
+  width?: number;
+};
+
 type UseAvatarValues = {
   avatar: Avatar;
   avatarModal: AvatarModal;
+  avatarPartsPickers: AvatarPartPicker[];
   activePart: string;
   avatarCanvasRef: React.MutableRefObject<HTMLDivElement | null>;
   isAvatarModalPickerOpen: boolean;
@@ -154,8 +165,70 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     }));
   };
 
+  const avatarPartsPickers: AvatarPartPicker[] = [
+    {
+      text: "Face",
+      path: avatar.head.src,
+      title: "Faces",
+      part: "head",
+      src: "faces/Face",
+      qty: 8,
+    },
+    {
+      text: "Hair",
+      path: avatar.hair.src,
+      title: "Hairs",
+      part: "hair",
+      src: "hairs/Hair",
+      qty: 32,
+    },
+    {
+      text: "Eyes",
+      path: avatar.eyes.src,
+      title: "Eyes",
+      part: "eyes",
+      src: "eyes/Eye",
+      qty: 6,
+    },
+    {
+      text: "Mouth",
+      path: avatar.mouth.src,
+      title: "Mouths",
+      part: "mouth",
+      src: "mouths/Mouth",
+      qty: 10,
+    },
+    {
+      text: "Outfit",
+      path: avatar.outfit.src,
+      title: "Outfits",
+      part: "outfit",
+      src: "outfits/Outfit",
+      qty: 25,
+    },
+    {
+      text: "Accessories",
+      path: avatar.accessories.src,
+      title: "Accessories",
+      part: "accessories",
+      src: "accessories/Accessory",
+      qty: 10,
+      width: 60,
+    },
+    {
+      text: "Others",
+      path: avatar.facialHair.src,
+      title: "Facial Hair",
+      part: "facialHair",
+      src: "facial-hair/FacialHair",
+      qty: 8,
+      width: 60,
+    },
+  ];
+
   return {
     avatar,
+    avatarPartsPickers,
     isAvatarModalPickerOpen,
     isBackgroundModalOpen,
     avatarModal,

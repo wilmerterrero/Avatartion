@@ -1,7 +1,10 @@
 {
   "name": "avatartion",
   "version": "1.0.0",
+  "author": "wilmerterrero",
+  "description": "Generate a personalized Notion-style avatar",
   "type": "module",
+  "license": "ISC",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
