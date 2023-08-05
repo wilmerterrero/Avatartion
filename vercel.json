@@ -1,5 +1,5 @@
 {
-    "builCommand": "yarn; yarn build",
+    "buildCommand": "yarn; yarn build",
     "builds": [{ "src": "server/main.cjs", "use": "@vercel/node" }],
     "routes": [{ "src": "/(.*)", "dest": "/src/main.cjs" }]
   }
