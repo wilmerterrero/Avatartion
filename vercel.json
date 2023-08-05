@@ -5,14 +5,14 @@
   "buildCommand": "yarn build",
   "builds": [
     {
-      "src": "main.cjs",
+      "src": "server/main.cjs",
       "use": "@vercel/node"
     }
   ],
   "routes": [
     {
       "src": "/(.*)",
-      "dest": "/main.cjs"
+      "dest": "server/main.cjs"
     }
   ]
 }
