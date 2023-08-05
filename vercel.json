@@ -1,0 +1,9 @@
+{
+  "outputDirectory": "server",
+  "builds": [
+    {
+      "src": "server/main.cjs",
+      "use": "@vercel/node"
+    }
+  ]
+}
