@@ -1,6 +1,6 @@
 {
   "public": true,
-  "outputDirectory": "server",
+  "outputDirectory": "/server/static",
   "installCommand": "yarn",
   "buildCommand": "yarn build",
   "builds": [
