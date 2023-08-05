@@ -43,5 +43,8 @@
     "url": "^0.11.1",
     "vite": "^4.4.5",
     "vite-plugin-radar": "^0.9.0"
+  },
+  "engines": {
+    "node": "^16.x"
   }
 }
