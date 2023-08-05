@@ -3,7 +3,6 @@ app = express();
 
 const { avatarGenerator } = require('./avatarGenerator.cjs');
 const { config } = require('dotenv');
-const port = process.env.PORT ?? '3000';
 
 config();
 
@@ -66,7 +65,5 @@ app.get("/api", async (request, response) => {
     }
 
 })
-
-app.listen(port, () => console.log(`app listening on port localhost:${port}`));
 
 module.exports = app;
