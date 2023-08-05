@@ -7,8 +7,6 @@ const port = process.env.PORT ?? '3000';
 
 config();
 
-app.use(express.static('server/static'));
-app.get('/', (_, res) => res.send('hello world'))
 app.get("/api", async (request, response) => {
 
     let chrome = {};
