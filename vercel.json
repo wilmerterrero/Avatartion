@@ -1,5 +1,18 @@
 {
-    "buildCommand": "yarn; yarn build",
-    "builds": [{ "src": "server/main.cjs", "use": "@vercel/node" }],
-    "routes": [{ "src": "/(.*)", "dest": "/src/main.cjs" }]
-  }
+  "public": true,
+  "outputDirectory": "server",
+  "installCommand": "yarn",
+  "buildCommand": "yarn build",
+  "builds": [
+    {
+      "src": "main.cjs",
+      "use": "@vercel/node"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/(.*)",
+      "dest": "/main.cjs"
+    }
+  ]
+}
