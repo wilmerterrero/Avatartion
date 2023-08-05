@@ -11,12 +11,8 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
+      "src": "/(.*)",
       "dest": "server/main.cjs"
-    },
-    {
-      "src": "/",
-      "dest": "server/static"
     }
   ]
 }
