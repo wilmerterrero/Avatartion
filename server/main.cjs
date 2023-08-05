@@ -6,8 +6,7 @@ const { config } = require('dotenv');
 const port = process.env.PORT ?? '3000';
 
 config();
-const path = require('path')
-app.use('/', express.static(path.join(__dirname, 'server/static')))
+
 app.get("/api", async (request, response) => {
 
     let chrome = {};
