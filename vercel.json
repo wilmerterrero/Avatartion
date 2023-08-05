@@ -1,8 +1,7 @@
 {
   "public": true,
   "outputDirectory": "server",
-  "installCommand": "yarn",
-  "buildCommand": "yarn build",
+  "installCommand": "yarn; yarn build",
   "builds": [
     {
       "src": "server/main.cjs",
