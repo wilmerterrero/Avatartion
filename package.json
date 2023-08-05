@@ -21,6 +21,11 @@
     "usehooks-ts": "^2.9.1"
   },
   "devDependencies": {
+    "chrome-aws-lambda": "^6.0.0",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "puppeteer-core": "^6.0.0",
+    "puppeteer": "^21.0.1",
     "@types/node": "^20.4.2",
     "@types/react": "^18.2.15",
     "@types/react-dom": "^18.2.7",
