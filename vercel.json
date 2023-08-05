@@ -1,6 +1,6 @@
 {
   "public": true,
-  "outputDirectory": "server/static",
+  "outputDirectory": "server",
   "installCommand": "yarn",
   "buildCommand": "yarn build",
   "builds": [
@@ -11,12 +11,8 @@
   ],
   "routes": [
     {
-      "src": "/api/(.*)",
-      "dest": "server/main.cjs"
-    },
-    {
       "src": "/(.*)",
-      "dest": "server/static/index.html"
+      "dest": "server/main.cjs"
     }
   ]
 }
