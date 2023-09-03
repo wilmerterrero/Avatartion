@@ -5,7 +5,6 @@
   "description": "Generate a personalized Notion-style avatar",
   "type": "module",
   "license": "ISC",
-  "main": "server/main.cjs.js",
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
