@@ -11,6 +11,7 @@ import { Footer } from "./components/Footer";
 
 import { useAvatar } from "./hooks/useAvatar";
 import { useSounds } from "./hooks/useSounds";
+import { AvatarDownloadOptionModal } from "./components/avatar/AvatarDownloadOptionModal";
 
 function App() {
   const [soundEnabled, setSoundEnabled] = useLocalStorage("soundEnabled", true);
@@ -20,18 +21,22 @@ function App() {
     availableAvatarPartsPickers,
     isAvatarModalPickerOpen,
     isBackgroundModalOpen,
+    isDownloadOptionModalOpen,
     showMoreEnabled,
     avatarModal,
     avatarCanvasRef,
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,
+    setIsDownloadOptionModalOpen,
     setShowMoreEnabled,
     openAvatarModalPicker,
     closeAvatarModalPicker,
     openAvatarBackgroundModal,
-    handleDownloadAvatar,
-    handleRandomizeAvatar,
+    openAvatarDownloadOptionModal,
+    handleDownloadAvatarPNG,
+    handleDownloadAvatarSVG,
+    handleRandomizeAvatar
   } = useAvatar({ soundEnabled });
 
   const { playPauseSound } = useSounds({ soundEnabled });
@@ -70,6 +75,11 @@ function App() {
           }
           onClose={() => setIsBackgroundModalOpen(false)}
         />
+        <AvatarDownloadOptionModal
+          isOpen={isDownloadOptionModalOpen}
+          onDownloadOption={(option: 'SVG' | 'PNG') => option === 'SVG' ? handleDownloadAvatarSVG() : handleDownloadAvatarPNG()}
+          onClose={() => setIsDownloadOptionModalOpen(false)}
+          />
         <div className="flex flex-col items-center justify-center px-4 pt-6 space-y-2">
           <div className="relative">
             <div className="flex space-x-2 md:space-x-4">
@@ -125,7 +135,7 @@ function App() {
             <AvatarTooltip text="Download" width={60}>
               <AvatarPartPicker
                 path="base/Download"
-                onClick={() => handleDownloadAvatar()}
+                onClick={() => openAvatarDownloadOptionModal()}
               />
             </AvatarTooltip>
             <AvatarTooltip text="Randomize" width={60}>
