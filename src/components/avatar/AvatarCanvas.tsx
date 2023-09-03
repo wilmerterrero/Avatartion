@@ -1,6 +1,17 @@
 import React, { Suspense } from "react";
-import styles from "../../styles/AvatarCanvas.module.css";
 import { Part } from "../parts/Part";
+
+enum PartIndexEnum {
+  bg = 1,
+  body,
+  outfit,
+  head,
+  hair,
+  eyes,
+  mouth,
+  'facial-hair',
+  accessories
+}
 
 type AvatarPart = {
   src: string;
@@ -39,7 +50,11 @@ export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
         <Suspense>
           <Part
             src={part.src}
-            className={`${styles["avatar-part"]} ${styles[type]}`}
+            style={{
+              zIndex: PartIndexEnum[type as unknown as PartIndexEnum],
+              position: 'absolute',
+              pointerEvents: 'none'
+            }}
           />
         </Suspense>
       );
@@ -48,6 +63,7 @@ export const AvatarCanvas = React.forwardRef<HTMLDivElement, AvatarCanvasProps>(
     return (
       <div
         ref={ref}
+        id="avatar-canvas-container"
         className={`absolute w-80 h-[294px] overflow-hidden ${bg} rounded-2xl`}
         {...rest}
       >
