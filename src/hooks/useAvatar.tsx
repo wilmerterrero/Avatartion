@@ -46,15 +46,19 @@ type UseAvatarValues = {
   avatarCanvasRef: React.MutableRefObject<HTMLDivElement | null>;
   isAvatarModalPickerOpen: boolean;
   isBackgroundModalOpen: boolean;
+  isDownloadOptionModalOpen: boolean;
   showMoreEnabled: boolean;
   setAvatar: React.Dispatch<React.SetStateAction<Avatar>>;
   setIsAvatarModalPickerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsBackgroundModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  setIsDownloadOptionModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setShowMoreEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   openAvatarModalPicker: (avatarModal: AvatarModal) => void;
   closeAvatarModalPicker: (part: string, src: string) => void;
   openAvatarBackgroundModal: () => void;
-  handleDownloadAvatar: () => void;
+  openAvatarDownloadOptionModal: () => void;
+  handleDownloadAvatarPNG: () => void;
+  handleDownloadAvatarSVG: () => void;
   handleRandomizeAvatar: () => void;
 };
 
@@ -81,6 +85,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
   });
   const [isAvatarModalPickerOpen, setIsAvatarModalPickerOpen] = useState(false);
   const [isBackgroundModalOpen, setIsBackgroundModalOpen] = useState(false);
+  const [isDownloadOptionModalOpen, setIsDownloadOptionModalOpen] = useState(false);
   const [showMoreEnabled, setShowMoreEnabled] = useState(false);
   const [avatarModal, setAvatarModal] = useState<AvatarModal>({
     title: "",
@@ -115,11 +120,15 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     setIsBackgroundModalOpen(true);
   };
 
-  const handleDownloadAvatar = useCallback(async () => {
+  const openAvatarDownloadOptionModal = () => {
+    playClickSound();
+    setIsDownloadOptionModalOpen(true);
+  }
+
+  const handleDownloadAvatarPNG = useCallback(async () => {
     if (avatarCanvasRef.current === null || avatar === null) {
       return;
     }
-
     const options =
       avatar.bg === "bg-transparent"
         ? {
@@ -137,9 +146,22 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
-
     playClickSound();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [avatar, avatarCanvasRef]);
+
+  const handleDownloadAvatarSVG = useCallback(async () => {
+    const svgContainer = document.getElementById("avatar-canvas-container");
+    const parts = Array.from(svgContainer?.querySelectorAll('svg')!, svg => svg.outerHTML);
+    const blob = new Blob([parts.join('')], { type: 'image/svg+xml' });
+    const objectURL = URL.createObjectURL(blob);
+    const link = document.createElement("a");
+    link.href = objectURL;
+    link.download = 'avatartion.svg'
+    link.click();
+    URL.revokeObjectURL(objectURL);
+    playClickSound();
   }, [avatar, avatarCanvasRef]);
 
   const openAvatarModalPicker = ({
@@ -245,6 +267,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     availableAvatarPartsPickers: excludedAvatarPartsPickers.length,
     isAvatarModalPickerOpen,
     isBackgroundModalOpen,
+    isDownloadOptionModalOpen,
     showMoreEnabled,
     avatarModal,
     activePart,
@@ -252,11 +275,14 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,
+    setIsDownloadOptionModalOpen,
     setShowMoreEnabled,
     openAvatarModalPicker,
     closeAvatarModalPicker,
     openAvatarBackgroundModal,
-    handleDownloadAvatar,
+    handleDownloadAvatarPNG,
+    handleDownloadAvatarSVG,
     handleRandomizeAvatar,
+    openAvatarDownloadOptionModal
   };
 };
