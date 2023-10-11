@@ -6,6 +6,7 @@ import { AvatarCanvas } from "./components/avatar/AvatarCanvas";
 import { AvatarPartModal } from "./components/avatar/AvatarPartModal";
 import { AvatarPartPicker } from "./components/avatar/AvatarPartPicker";
 import { AvatarTooltip } from "./components/avatar/AvatarTooltip";
+import { AvatarDownloadOptionModal } from "./components/avatar/AvatarDownloadOptionModal";
 import { backgrounds } from "./constants/backgrounds";
 import { Footer } from "./components/Footer";
 
@@ -25,14 +26,18 @@ function App() {
     isBackgroundModalOpen,
     avatarModal,
     avatarCanvasRef,
+    isDownloadOptionModalOpen,
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,
+    setIsDownloadOptionModalOpen,
     openAvatarModalPicker,
     closeAvatarModalPicker,
     openAvatarBackgroundModal,
-    handleDownloadAvatar,
-    handleRandomizeAvatar,
+    openAvatarDownloadOptionModal,
+    handleDownloadAvatarPNG,
+    handleDownloadAvatarSVG,
+    handleRandomizeAvatar
   } = useAvatar({ soundEnabled });
 
   const { playPauseSound } = useSounds({ soundEnabled });
@@ -122,7 +127,7 @@ function App() {
                   <AvatarTooltip text="Download" width={60}>
                     <AvatarPartPicker
                       path="base/Download"
-                      onClick={() => handleDownloadAvatar()}
+                      onClick={() => openAvatarDownloadOptionModal()}
                     />
                   </AvatarTooltip>
                   <AvatarTooltip text="Randomize" width={60}>
@@ -195,7 +200,7 @@ function App() {
                 <AvatarTooltip text="Download" width={60}>
                   <AvatarPartPicker
                     path="base/Download"
-                    onClick={() => openAvatarBackgroundModal()}
+                    onClick={() => openAvatarDownloadOptionModal()}
                   />
                 </AvatarTooltip>
                 <AvatarTooltip text="Randomize" width={60}>
@@ -234,7 +239,7 @@ function App() {
         }
         onClose={() => setIsBackgroundModalOpen(false)}
       />
-      {/* <AvatarDownloadOptionModal
+      <AvatarDownloadOptionModal
         isOpen={isDownloadOptionModalOpen}
         onDownloadOption={(option: "SVG" | "PNG") =>
           option === "SVG"
@@ -242,7 +247,7 @@ function App() {
             : handleDownloadAvatarPNG()
         }
         onClose={() => setIsDownloadOptionModalOpen(false)}
-      /> */}
+      />
     </>
   );
 }
