@@ -35,22 +35,21 @@ type AvatarPartPicker = {
   src: string;
   qty: number;
   width?: number;
+  isModal?: boolean;
 };
 
 type UseAvatarValues = {
   avatar: Avatar;
   avatarModal: AvatarModal;
   avatarPartsPickers: AvatarPartPicker[];
+  restAvatarPartsPickers: AvatarPartPicker[];
   activePart: string;
-  availableAvatarPartsPickers: number;
   avatarCanvasRef: React.MutableRefObject<HTMLDivElement | null>;
   isAvatarModalPickerOpen: boolean;
   isBackgroundModalOpen: boolean;
-  showMoreEnabled: boolean;
   setAvatar: React.Dispatch<React.SetStateAction<Avatar>>;
   setIsAvatarModalPickerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsBackgroundModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
-  setShowMoreEnabled: React.Dispatch<React.SetStateAction<boolean>>;
   openAvatarModalPicker: (avatarModal: AvatarModal) => void;
   closeAvatarModalPicker: (part: string, src: string) => void;
   openAvatarBackgroundModal: () => void;
@@ -81,7 +80,6 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
   });
   const [isAvatarModalPickerOpen, setIsAvatarModalPickerOpen] = useState(false);
   const [isBackgroundModalOpen, setIsBackgroundModalOpen] = useState(false);
-  const [showMoreEnabled, setShowMoreEnabled] = useState(false);
   const [avatarModal, setAvatarModal] = useState<AvatarModal>({
     title: "",
     part: "",
@@ -177,6 +175,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       part: "head",
       src: "faces/Face",
       qty: 8,
+      width: 60,
+      isModal: true
     },
     {
       text: "Hair",
@@ -185,6 +185,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       part: "hair",
       src: "hairs/Hair",
       qty: 32,
+      width: 60,
+      isModal: true
     },
     {
       text: "Eyes",
@@ -193,6 +195,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       part: "eyes",
       src: "eyes/Eye",
       qty: 6,
+      width: 60,
+      isModal: true
     },
     {
       text: "Mouth",
@@ -201,6 +205,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       part: "mouth",
       src: "mouths/Mouth",
       qty: 10,
+      width: 60,
+      isModal: true
     },
     {
       text: "Outfit",
@@ -209,6 +215,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       part: "outfit",
       src: "outfits/Outfit",
       qty: 25,
+      width: 60,
+      isModal: true
     },
     {
       text: "Accessories",
@@ -218,6 +226,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       src: "accessories/Accessory",
       qty: 10,
       width: 60,
+      isModal: true
     },
     {
       text: "Others",
@@ -227,32 +236,40 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       src: "facial-hair/FacialHair",
       qty: 8,
       width: 60,
+      isModal: true
     },
+    {
+      text: "Background",
+      path: avatar.bg,
+      title: "Backgrounds",
+      part: "bg",
+      src: "bg-transparent",
+      qty: 0,
+      width: 60,
+      isModal: true
+    }
   ];
 
-  const excludedAvatarPartsPickers = ["facialHair", "accessories"];
-  const filteredAvatarPartsPickers = showMoreEnabled
-    ? avatarPartsPickers.filter((picker) =>
-        excludedAvatarPartsPickers.includes(picker.part)
-      )
-    : avatarPartsPickers.filter(
-        (picker) => !excludedAvatarPartsPickers.includes(picker.part)
-      );
+  const excludedAvatarPartsPickers = ["facialHair", "accessories", "bg"];
+  const filteredAvatarPartsPickers = avatarPartsPickers.filter(
+    (picker) => !excludedAvatarPartsPickers.includes(picker.part)
+  )
+  const restAvatarPartsPickers = avatarPartsPickers.filter((picker) =>
+  excludedAvatarPartsPickers.includes(picker.part)
+)
 
   return {
     avatar,
     avatarPartsPickers: filteredAvatarPartsPickers,
-    availableAvatarPartsPickers: excludedAvatarPartsPickers.length,
+    restAvatarPartsPickers,
     isAvatarModalPickerOpen,
     isBackgroundModalOpen,
-    showMoreEnabled,
     avatarModal,
     activePart,
     avatarCanvasRef,
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,
-    setShowMoreEnabled,
     openAvatarModalPicker,
     closeAvatarModalPicker,
     openAvatarBackgroundModal,
