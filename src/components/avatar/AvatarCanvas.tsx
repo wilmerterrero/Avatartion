@@ -1,17 +1,6 @@
 import React, { Suspense } from "react";
 import { Part } from "../parts/Part";
-
-enum PartIndexEnum {
-  bg = 1,
-  body,
-  outfit,
-  head,
-  hair,
-  eyes,
-  mouth,
-  'facial-hair',
-  accessories
-}
+import { PartIndexEnum } from "../../constants/parts";
 
 type AvatarPart = {
   src: string;

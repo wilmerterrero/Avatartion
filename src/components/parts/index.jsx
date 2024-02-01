@@ -107,3 +107,4 @@ export { default as Download } from './base/Download';
 export { default as Reload } from './base/Reload';
 export { default as SoundLoud } from './base/SoundLoud';
 export { default as SoundOff } from './base/SoundOff';
+export { default as Share } from './base/Share';

@@ -26,7 +26,7 @@ export const Footer = () => {
           className="hover:text-black hover:underline transition duration-300 ease-in-out"
           href="https://buymeacoffee.com/wilmerterrero"
         >
-          Buy me a coffe
+          Buy me a coffee
         </a>
       </p>
       <span className="text-gray-400 text-md hidden md:block">|</span>

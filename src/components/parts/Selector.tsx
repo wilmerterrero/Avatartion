@@ -12,15 +12,15 @@ export const Selector = ({ onSelectorClick }: Props) => {
       onClick={() => onSelectorClick()}
       className="cursor-pointer"
     >
-      <g stroke-width="0"></g>
-      <g stroke-linecap="round" stroke-linejoin="round"></g>
+      <g strokeWidth="0"></g>
+      <g strokeLinecap="round" strokeLinejoin="round"></g>
       <g>
         <path
           d="M7 15L12 20L17 15M7 9L12 4L17 9"
           stroke="#000000"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
         ></path>
       </g>
     </svg>

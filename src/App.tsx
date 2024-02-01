@@ -13,6 +13,7 @@ import { Footer } from "./components/Footer";
 import { useAvatar } from "./hooks/useAvatar";
 import { useSounds } from "./hooks/useSounds";
 import { Selector } from "./components/parts/Selector";
+import { FAQs } from "./components/FAQs";
 
 const Title = () => <h1 className="font-bold text-3xl">Avatartion</h1>;
 
@@ -37,7 +38,8 @@ function App() {
     openAvatarDownloadOptionModal,
     handleDownloadAvatarPNG,
     handleDownloadAvatarSVG,
-    handleRandomizeAvatar
+    handleRandomizeAvatar,
+    generateShareURL,
   } = useAvatar({ soundEnabled });
 
   const { playPauseSound } = useSounds({ soundEnabled });
@@ -50,6 +52,8 @@ function App() {
       playPauseSound();
     }
   };
+
+  if (Object.entries(avatar).length === 0) return null;
 
   return (
     <>
@@ -136,6 +140,12 @@ function App() {
                       onClick={() => handleRandomizeAvatar()}
                     />
                   </AvatarTooltip>
+                  <AvatarTooltip text="Share" width={60}>
+                    <AvatarPartPicker
+                      path="base/Share"
+                      onClick={() => generateShareURL()}
+                    />
+                  </AvatarTooltip>
                   <AvatarTooltip text="Sound" width={60}>
                     <AvatarPartPicker
                       path={`base/${soundEnabled ? "SoundLoud" : "SoundOff"}`}
@@ -145,7 +155,8 @@ function App() {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col items-center justify-center px-4 space-y-2">
+            <div className="flex flex-col items-center justify-center px-4 space-y-2 pb-12">
+              <FAQs />
               <Footer />
             </div>
           </div>
@@ -158,40 +169,52 @@ function App() {
               <AvatarCanvas {...avatar} ref={avatarCanvasRef} />
             </div>
             <div className="flex items-center justify-center">
-              <div className="flex flex-col items-center justify-center px-4 pt-6 space-y-2 w-[350px] overflow-x-auto">
-                <div className="flex space-x-2 md:space-x-4 ">
-                  {[...avatarPartsPickers, ...restAvatarPartsPickers].map(
-                    (picker) => (
-                      <AvatarTooltip
-                        key={picker.path}
-                        text={picker.text}
-                        width={picker.width}
-                      >
-                        <div className="flex items-center overflow-x-auto">
-                          {picker.part !== "bg" ? (
-                            <AvatarPartPicker
-                              path={picker.path}
-                              onClick={() => openAvatarModalPicker(picker)}
-                            />
-                          ) : (
-                            <AvatarBackgroundPicker
-                              color={avatar.bg}
-                              onClick={() => openAvatarBackgroundModal()}
-                            />
-                          )}
-                          {picker.isModal && (
-                            <Selector
-                              onSelectorClick={() =>
-                                picker.part !== "bg"
-                                  ? openAvatarModalPicker(picker)
-                                  : openAvatarBackgroundModal()
-                              }
-                            />
-                          )}
-                        </div>
-                      </AvatarTooltip>
-                    )
-                  )}
+              <div className="flex flex-col items-center justify-center px-4 pt-6 space-y-2 overflow-x-auto">
+                <div className="flex space-x-3 md:space-x-4 ">
+                  {avatarPartsPickers.map((picker) => (
+                    <AvatarTooltip
+                      key={picker.path}
+                      text={picker.text}
+                      width={picker.width}
+                    >
+                      <div className="flex items-center overflow-x-auto">
+                        {picker.part !== "bg" ? (
+                          <AvatarPartPicker
+                            path={picker.path}
+                            onClick={() => openAvatarModalPicker(picker)}
+                          />
+                        ) : (
+                          <AvatarBackgroundPicker
+                            color={avatar.bg}
+                            onClick={() => openAvatarBackgroundModal()}
+                          />
+                        )}
+                      </div>
+                    </AvatarTooltip>
+                  ))}
+                </div>
+                <div className="flex space-x-3 md:space-x-4 ">
+                  {restAvatarPartsPickers.map((picker) => (
+                    <AvatarTooltip
+                      key={picker.path}
+                      text={picker.text}
+                      width={picker.width}
+                    >
+                      <div className="flex items-center overflow-x-auto">
+                        {picker.part !== "bg" ? (
+                          <AvatarPartPicker
+                            path={picker.path}
+                            onClick={() => openAvatarModalPicker(picker)}
+                          />
+                        ) : (
+                          <AvatarBackgroundPicker
+                            color={avatar.bg}
+                            onClick={() => openAvatarBackgroundModal()}
+                          />
+                        )}
+                      </div>
+                    </AvatarTooltip>
+                  ))}
                 </div>
               </div>
             </div>
@@ -209,6 +232,12 @@ function App() {
                     onClick={() => handleRandomizeAvatar()}
                   />
                 </AvatarTooltip>
+                <AvatarTooltip text="Share" width={60}>
+                  <AvatarPartPicker
+                    path="base/Share"
+                    onClick={() => generateShareURL()}
+                  />
+                </AvatarTooltip>
                 <AvatarTooltip text="Sound" width={60}>
                   <AvatarPartPicker
                     path={`base/${soundEnabled ? "SoundLoud" : "SoundOff"}`}
@@ -217,7 +246,10 @@ function App() {
                 </AvatarTooltip>
               </div>
             </div>
-            <Footer />
+            <FAQs />
+            <div className="pb-24">
+              <Footer />
+              </div>
           </div>
         )}
       </div>
