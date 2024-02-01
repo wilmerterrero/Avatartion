@@ -15,6 +15,7 @@ import { useAvatar } from "./hooks/useAvatar";
 import { useSounds } from "./hooks/useSounds";
 import { Selector } from "./components/parts/Selector";
 import { FAQs } from "./components/FAQs";
+import { useEffect } from "react";
 
 const Title = () => <h1 className="font-bold text-3xl">Avatartion</h1>;
 
@@ -41,7 +42,14 @@ function App() {
     handleDownloadAvatarSVG,
     handleRandomizeAvatar,
     generateShareURL,
+    serialize,
   } = useAvatar({ soundEnabled });
+
+  useEffect(() => {
+    const currentParams = new URLSearchParams(window.location.search);
+    currentParams.set("shared", serialize());
+    window.history.pushState(null, "", `?${currentParams.toString()}`);
+  }, [avatar]);
 
   const { playPauseSound } = useSounds({ soundEnabled });
 
