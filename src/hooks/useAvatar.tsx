@@ -1,4 +1,4 @@
-import { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect, useCallback } from "react";
 import html2canvas from "html2canvas";
 import { backgrounds } from "../constants/backgrounds";
 import { useSounds } from "./useSounds";
@@ -61,6 +61,8 @@ type UseAvatarValues = {
   handleDownloadAvatarSVG: () => void;
   handleRandomizeAvatar: () => void;
   generateShareURL: () => void;
+  serialize: () => string;
+  deserialize: (serializedAvatar: string) => boolean;
 };
 
 type UseAvatarType = {
@@ -92,22 +94,12 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
 
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const sharedParams = new URLSearchParams(urlParams.get("shared") || "");
-    const hasShared = sharedParams.toString().includes("=");
 
-    if (hasShared) {
-      const avatarShared = Object.fromEntries(sharedParams);
-      const newObj: Avatar = {} as Avatar;
-      for (const [key, value] of Object.entries(avatarShared)) {
-        if (key === "bg") {
-          newObj[key] = value;
-          continue
-        }
-        // @ts-expect-error - Object entries
-        newObj[key] = { src: value };
+    if (!deserialize(urlParams.get("shared") || "")) {
+      if (urlParams.has("shared")) {
+        toast.error("The shared avatar is invalid, randomizing...");
       }
-      setAvatar(newObj);
-    } else {
+
       setAvatar({
         bg: "bg-red-300",
         body: { src: "base/Body" },
@@ -223,28 +215,14 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
   };
 
   const generateShareURL = () => {
-    const params = new URLSearchParams();
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for (const [name, part] of Object.entries(avatar)) {
-      // @ts-expect-error - Object entries
-      if (part?.src === undefined) {
-        // @ts-expect-error - Object entries
-        params.append(name, part);
-      } else {
-        // @ts-expect-error - Object entries
-        params.append(name, part.src);
-      }
-    }
-    const sharedParams = params.toString();
-    const url = `${window.location.origin}?shared=${encodeURIComponent(
-      "?" + sharedParams
-    )}`;
+    const url = `${window.location.origin}?shared=${serialize()}`;
 
     const shareData = {
       title: "Avatartion",
       text: "Check out my avatar!",
       url,
     };
+
     if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData);
     } else {
@@ -252,6 +230,69 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       toast.success("Link copied to clipboard");
     }
   };
+
+  const serialize = useCallback(() => {
+    const parts = {
+      bg: avatar.bg,
+      body: avatar.body.src.replace("base/Body", ""),
+      hair: avatar.hair.src.replace("hairs/Hair", ""),
+      eyes: avatar.eyes.src.replace("eyes/Eye", ""),
+      mouth: avatar.mouth.src.replace("mouths/Mouth", ""),
+      head: avatar.head.src.replace("faces/Face", ""),
+      outfit: avatar.outfit.src.replace("outfits/Outfit", ""),
+      accessories: avatar.accessories.src.replace("accessories/Accessory", ""),
+      facialHair: avatar.facialHair.src.replace("facial-hair/FacialHair", ""),
+    };
+
+    const buffer = new Uint8Array(9);
+    buffer[0] = 0; // FIXME: add suffix for the body too in the assets folder
+    buffer[1] = Number(parts.hair);
+    buffer[2] = Number(parts.eyes);
+    buffer[3] = Number(parts.mouth);
+    buffer[4] = Number(parts.head);
+    buffer[5] = Number(parts.outfit);
+    buffer[6] = Number(parts.accessories);
+    buffer[7] = Number(parts.facialHair);
+    buffer[8] = backgrounds.indexOf(parts.bg);
+    buffer[8] = buffer[8] === -1 ? 0 : buffer[8];
+
+    const serializedAvatar = btoa(
+      [...buffer].map((b) => String.fromCharCode(b)).join("")
+    );
+
+    return serializedAvatar;
+  }, [avatar]);
+
+  const deserialize = useCallback((serializedAvatar: string) => {
+    if (!serializedAvatar) return false;
+
+    try {
+      const buffer = Uint8Array.from(
+        atob(serializedAvatar),
+        (c) => c.charCodeAt(0) || 1
+      );
+      if (buffer.length !== 9) return false;
+
+      const parts = [...buffer].map((b) => b.toString().padStart(2, "0"));
+      const background = backgrounds[buffer[8]];
+
+      setAvatar({
+        bg: background,
+        body: { src: "base/Body" },
+        hair: { src: `hairs/Hair${parts[1]}` },
+        eyes: { src: `eyes/Eye${parts[2]}` },
+        mouth: { src: `mouths/Mouth${parts[3]}` },
+        head: { src: `faces/Face${parts[4]}` },
+        outfit: { src: `outfits/Outfit${parts[5]}` },
+        accessories: { src: `accessories/Accessory${parts[6]}` },
+        facialHair: { src: `facial-hair/FacialHair${parts[7]}` },
+      });
+    } catch (error) {
+      return false;
+    }
+
+    return true;
+  }, []);
 
   const avatarPartsPickers: AvatarPartPicker[] = [
     {
@@ -366,5 +407,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     handleRandomizeAvatar,
     openAvatarDownloadOptionModal,
     generateShareURL,
+    serialize,
+    deserialize,
   };
 };

@@ -250,7 +250,7 @@ function App() {
             <FAQs />
             <div className="pb-24">
               <Footer />
-              </div>
+            </div>
           </div>
         )}
       </div>
