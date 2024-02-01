@@ -96,11 +96,15 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     const hasShared = sharedParams.toString().includes("=");
 
     if (hasShared) {
-      const avatarShared = Object.fromEntries(sharedParams)
+      const avatarShared = Object.fromEntries(sharedParams);
       const newObj: Avatar = {} as Avatar;
       for (const [key, value] of Object.entries(avatarShared)) {
+        if (key === "bg") {
+          newObj[key] = value;
+          continue
+        }
         // @ts-expect-error - Object entries
-        newObj[key] = { src: value }
+        newObj[key] = { src: value };
       }
       setAvatar(newObj);
     } else {
@@ -220,23 +224,31 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
 
   const generateShareURL = () => {
     const params = new URLSearchParams();
-    // @ts-expect-error - Object entries
-    for (const [part, { src }] of Object.entries(avatar)) {
-      if (part === "bg") continue;
-      params.append(part, src);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for (const [name, part] of Object.entries(avatar)) {
+      // @ts-expect-error - Object entries
+      if (part?.src === undefined) {
+        // @ts-expect-error - Object entries
+        params.append(name, part);
+      } else {
+        // @ts-expect-error - Object entries
+        params.append(name, part.src);
+      }
     }
     const sharedParams = params.toString();
+    const url = `${window.location.origin}?shared=${encodeURIComponent(
+      "?" + sharedParams
+    )}`;
+
     const shareData = {
       title: "Avatartion",
       text: "Check out my avatar!",
-      url: `${window.location.origin}?shared=${encodeURIComponent(
-        "?" + sharedParams
-      )}`,
+      url,
     };
     if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData);
     } else {
-      navigator.clipboard.writeText(shareData.url);
+      navigator.clipboard.writeText(url);
       toast.success("Link copied to clipboard");
     }
   };
