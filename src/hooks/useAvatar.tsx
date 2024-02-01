@@ -2,6 +2,7 @@ import { useRef, useState, useEffect } from "react";
 import html2canvas from "html2canvas";
 import { backgrounds } from "../constants/backgrounds";
 import { useSounds } from "./useSounds";
+import toast from "react-hot-toast";
 
 type AvatarPart = {
   src: string;
@@ -236,6 +237,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
       navigator.share(shareData);
     } else {
       navigator.clipboard.writeText(shareData.url);
+      toast.success("Link copied to clipboard");
     }
   };
 

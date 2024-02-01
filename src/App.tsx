@@ -1,4 +1,5 @@
 import { useLocalStorage, useMediaQuery } from "usehooks-ts";
+import { Toaster } from "react-hot-toast";
 
 import { AvatarBackgroundModal } from "./components/avatar/AvatarBackgroundModal";
 import { AvatarBackgroundPicker } from "./components/avatar/AvatarBackgroundPicker";
@@ -280,6 +281,7 @@ function App() {
         }
         onClose={() => setIsDownloadOptionModalOpen(false)}
       />
+      <Toaster />
     </>
   );
 }
