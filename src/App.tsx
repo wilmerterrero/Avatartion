@@ -27,6 +27,7 @@ function App() {
     restAvatarPartsPickers,
     isAvatarModalPickerOpen,
     isBackgroundModalOpen,
+    isShared,
     avatarModal,
     avatarCanvasRef,
     isDownloadOptionModalOpen,
@@ -41,15 +42,21 @@ function App() {
     handleDownloadAvatarPNG,
     handleDownloadAvatarSVG,
     handleRandomizeAvatar,
-    generateShareURL,
+    share,
     serialize,
   } = useAvatar({ soundEnabled });
 
   useEffect(() => {
+    if (!isShared) return;
+
     const currentParams = new URLSearchParams(window.location.search);
-    currentParams.set("shared", serialize());
+    if (currentParams.has("shared")) {
+      currentParams.delete("shared");
+    }
+
+    currentParams.set("avatar", serialize());
     window.history.pushState(null, "", `?${currentParams.toString()}`);
-  }, [avatar]);
+  }, [avatar, isShared]);
 
   const { playPauseSound } = useSounds({ soundEnabled });
 
@@ -152,7 +159,7 @@ function App() {
                   <AvatarTooltip text="Share" width={60}>
                     <AvatarPartPicker
                       path="base/Share"
-                      onClick={() => generateShareURL()}
+                      onClick={() => share()}
                     />
                   </AvatarTooltip>
                   <AvatarTooltip text="Sound" width={60}>
@@ -242,10 +249,7 @@ function App() {
                   />
                 </AvatarTooltip>
                 <AvatarTooltip text="Share" width={60}>
-                  <AvatarPartPicker
-                    path="base/Share"
-                    onClick={() => generateShareURL()}
-                  />
+                  <AvatarPartPicker path="base/Share" onClick={() => share()} />
                 </AvatarTooltip>
                 <AvatarTooltip text="Sound" width={60}>
                   <AvatarPartPicker

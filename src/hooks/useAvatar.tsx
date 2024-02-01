@@ -49,6 +49,7 @@ type UseAvatarValues = {
   isAvatarModalPickerOpen: boolean;
   isBackgroundModalOpen: boolean;
   isDownloadOptionModalOpen: boolean;
+  isShared: boolean;
   setAvatar: React.Dispatch<React.SetStateAction<Avatar>>;
   setIsAvatarModalPickerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsBackgroundModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -60,7 +61,7 @@ type UseAvatarValues = {
   handleDownloadAvatarPNG: () => void;
   handleDownloadAvatarSVG: () => void;
   handleRandomizeAvatar: () => void;
-  generateShareURL: () => void;
+  share: () => void;
   serialize: () => string;
   deserialize: (serializedAvatar: string) => void;
   randomize: (overrides?: Partial<Avatar>) => void;
@@ -154,10 +155,12 @@ const deserializeAvatar = (serializedAvatar: string): Avatar | null => {
 export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
   const [avatar, setAvatar] = useState<Avatar>(() => {
     const urlParams = new URLSearchParams(window.location.search);
-    const deserialized = deserializeAvatar(urlParams.get("shared") || "");
+
+    const sharedUrl = urlParams.get("avatar") || urlParams.get("shared") || "";
+    const deserialized = deserializeAvatar(sharedUrl);
 
     if (!deserialized) {
-      if (urlParams.has("shared")) {
+      if (sharedUrl) {
         toast.error("The shared avatar is invalid, randomizing...");
       }
 
@@ -167,6 +170,10 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     }
 
     return deserialized;
+  });
+  const [isShared, setIsShared] = useState(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.has("shared") || urlParams.has("avatar");
   });
   const [isAvatarModalPickerOpen, setIsAvatarModalPickerOpen] = useState(false);
   const [isBackgroundModalOpen, setIsBackgroundModalOpen] = useState(false);
@@ -278,19 +285,25 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     }));
   };
 
-  const generateShareURL = () => {
-    const url = `${window.location.origin}?shared=${serialize()}`;
+  const share = () => {
+    setIsShared(true);
+
+    const url = new URL(window.location.href);
+    url.searchParams.set("avatar", serialize());
+    window.history.pushState(null, "", url);
+
+    const urlString = url.toString();
 
     const shareData = {
       title: "Avatartion",
       text: "Check out my avatar!",
-      url,
+      url: urlString,
     };
 
     if (navigator.share && navigator.canShare(shareData)) {
       navigator.share(shareData);
     } else {
-      navigator.clipboard.writeText(url);
+      navigator.clipboard.writeText(urlString);
       toast.success("Link copied to clipboard");
     }
   };
@@ -420,7 +433,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     handleDownloadAvatarSVG,
     handleRandomizeAvatar,
     openAvatarDownloadOptionModal,
-    generateShareURL,
+    share,
+    isShared,
     serialize,
     deserialize: deserializeAndLoad,
     randomize,
