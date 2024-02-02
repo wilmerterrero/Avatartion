@@ -13,6 +13,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
+    "@neoconfetti/react": "^0.1.1",
     "@react-hook/media-query": "^1.1.1",
     "html2canvas": "^1.4.1",
     "react": "^18.2.0",

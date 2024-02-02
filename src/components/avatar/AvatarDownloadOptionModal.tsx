@@ -76,8 +76,9 @@ export const AvatarDownloadOptionModal = ({
                   })}
                 </div>
                 <div className="mt-2">
-                  <p className="text-sm animate-bounce hover:animate-none">
-                    Consider{" "}
+                  <p className="text-sm">
+                    Thanks for using Avatartion! ❤️ <br />
+                    Consider&nbsp;
                     <a
                       className="text-black underline"
                       href="https://buymeacoffee.com/wilmerterrero"

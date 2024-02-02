@@ -3,6 +3,8 @@ import html2canvas from "html2canvas";
 import { backgrounds } from "../constants/backgrounds";
 import { useSounds } from "./useSounds";
 import toast from "react-hot-toast";
+import { useConfetti } from "./useConfetti";
+import { ConfettiProps } from "@neoconfetti/react";
 
 type AvatarPart = {
   src: string;
@@ -50,6 +52,8 @@ type UseAvatarValues = {
   isBackgroundModalOpen: boolean;
   isDownloadOptionModalOpen: boolean;
   isShared: boolean;
+  showConfetti: boolean;
+  confettiOptions: ConfettiProps;
   setAvatar: React.Dispatch<React.SetStateAction<Avatar>>;
   setIsAvatarModalPickerOpen: React.Dispatch<React.SetStateAction<boolean>>;
   setIsBackgroundModalOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -191,6 +195,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
 
   const { playClickSound, playBoingSound } = useSounds({ soundEnabled });
 
+  const { showConfetti, confettiOptions, confettiToggle } = useConfetti();
+
   const randomize = (overrides?: Partial<Avatar>) => {
     setAvatar(getRandomAvatar(overrides));
   };
@@ -233,6 +239,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     link.click();
     document.body.removeChild(link);
     playClickSound();
+    confettiToggle();
   };
 
   const handleDownloadAvatarSVG = async () => {
@@ -257,6 +264,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     link.click();
     URL.revokeObjectURL(objectURL);
     playClickSound();
+    confettiToggle();
   };
 
   const openAvatarModalPicker = ({
@@ -305,6 +313,7 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     } else {
       navigator.clipboard.writeText(urlString);
       toast.success("Link copied to clipboard");
+      confettiToggle();
     }
   };
 
@@ -422,6 +431,8 @@ export const useAvatar = ({ soundEnabled }: UseAvatarType): UseAvatarValues => {
     avatarModal,
     activePart,
     avatarCanvasRef,
+    showConfetti,
+    confettiOptions,
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,

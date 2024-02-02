@@ -4,22 +4,22 @@ const faqs = [
   {
     question: "What is Avatartion?",
     answer:
-      "Avatartion is a tool that allows you to create custom avatars for your Notion profile. You can customize the hair, eyes, mouth, head, outfit, body, accessories, and facial hair of your avatar.",
+      "Avatartion is a tool that allows you to create custom Notion-style avatars for your social media profiles. You can customize the hair, eyes, mouth, head, outfit, body, accessories, and facial hair of your avatar.",
   },
   {
     question: "What is a Notion Avatar?",
     answer:
-      "A Notion avatar is a custom image that you can use to represent yourself on social media. You can use Avatartion to create a custom avatar for your socials.",
+      "A Notion avatar is a custom image that you can use to represent yourself on social media. You can use Avatartion to create a custom Notion-style avatar for your socials.",
   },
   {
     question: "Is Avatartion free?",
     answer:
-      "Yes, Avatartion is free to use. You can create and download your custom avatar without paying anything.",
+      "Yes, Avatartion is free to use. You can create and download your custom Notion-style avatar without paying anything.",
   },
   {
     question: "Can I use Avatartion to create avatars for my projects?",
     answer:
-      "Yes, you can use Avatartion to create avatars for your personal and commercial projects. There are no restrictions on how you can use the avatars you create. Remember to credit Drawkit for the artwork.",
+      "Yes, you can use Avatartion to create Notion-style avatars for your personal and commercial projects. There are no restrictions on how you can use the avatars you create. Remember to credit Drawkit for the artwork.",
   },
   {
     question: "Is Avatartion open source?",
@@ -29,7 +29,7 @@ const faqs = [
   {
     question: "Is Avatartion affiliated with Notion?",
     answer:
-      "No, Avatartion is not affiliated with Notion. It is an independent project created by Wilmer Terrero.",
+      "No, Avatartion is not affiliated with Notion. It is an independent project created by Wilmer Terrero and contributors.",
   },
 ];
 export const FAQs = () => {

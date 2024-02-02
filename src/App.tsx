@@ -16,6 +16,7 @@ import { useSounds } from "./hooks/useSounds";
 import { Selector } from "./components/parts/Selector";
 import { FAQs } from "./components/FAQs";
 import { useEffect } from "react";
+import { Confetti } from "@neoconfetti/react";
 
 const Title = () => <h1 className="font-bold text-3xl">Avatartion</h1>;
 
@@ -31,6 +32,8 @@ function App() {
     avatarModal,
     avatarCanvasRef,
     isDownloadOptionModalOpen,
+    showConfetti,
+    confettiOptions,
     setAvatar,
     setIsAvatarModalPickerOpen,
     setIsBackgroundModalOpen,
@@ -80,6 +83,7 @@ function App() {
               <Title />
             </div>
             <div className="flex items-center justify-center relative">
+            {showConfetti && <Confetti {...confettiOptions} />}
               <div className="flex items-center justify-center h-[44vh] md:h-[47vh]">
                 <AvatarCanvas {...avatar} ref={avatarCanvasRef} />
               </div>
@@ -185,6 +189,7 @@ function App() {
               <AvatarCanvas {...avatar} ref={avatarCanvasRef} />
             </div>
             <div className="flex items-center justify-center">
+            {showConfetti && <Confetti {...confettiOptions} />}
               <div className="flex flex-col items-center justify-center px-4 pt-6 space-y-2 overflow-x-auto">
                 <div className="flex space-x-3 md:space-x-4 ">
                   {avatarPartsPickers.map((picker) => (

@@ -1,8 +1,9 @@
 import useSound from "use-sound";
 
-import clickSound from "../assets/sounds/click_sound.mp3";
-import boingSound from "../assets/sounds/boing.mp3";
-import pauseSound from "../assets/sounds/pause.mp3";
+const boingSound = "https://s3.amazonaws.com/cdn.avatartion.com/boing.mp3";
+const clickSound =
+  "https://s3.amazonaws.com/cdn.avatartion.com/click_sound.mp3";
+const pauseSound = "https://s3.amazonaws.com/cdn.avatartion.com/pause.mp3";
 
 type UseSoundsType = {
   soundEnabled: boolean;
