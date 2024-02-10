@@ -1976,11 +1976,6 @@ utrie@^1.0.2:
   dependencies:
     base64-arraybuffer "^1.0.2"
 
-vite-plugin-radar@^0.9.0:
-  version "0.9.0"
-  resolved "https://registry.yarnpkg.com/vite-plugin-radar/-/vite-plugin-radar-0.9.0.tgz#3fac988c64cd9f9513b469fb7190b09edb142e3d"
-  integrity sha512-nKRSNMoZ8ehg2U/1rMSG9be53JrbEMzsARpbHJHgfHFe7TyIKr1ew2xvMol4TSNTeI6LKYroAqgpoxdbomBnTQ==
-
 vite@^4.4.5:
   version "4.4.6"
   resolved "https://registry.yarnpkg.com/vite/-/vite-4.4.6.tgz#97a0a43868ec773fd88980d7c323c80233521cf1"
